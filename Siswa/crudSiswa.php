@@ -43,7 +43,6 @@ if (isset($_GET['op'], $idSiswa) && $_GET['op'] == 'edit') {
     }
 }
 
-    
 
 //untuk menangkap nilai yang di inputkan
 // input dari elemen name="nisn" dimasukan ke variable $nisn
