@@ -63,15 +63,16 @@ if (isset($_POST['simpan'])) { //untuk create
             $sql1   = "insert into guru(nama,nip,kelas,keterangan) values ('$nama','$nip','$kelas','$keterangan')";
             $q1     = mysqli_query($koneksi, $sql1);
             if ($q1) {
-                $sukses     = "Berhasil memasukkan data baru";
+                $sukses  = "Berhasil memasukkan data baru";
             } else {
-                $error      = "Gagal memasukkan data";
+                $error   = "Gagal memasukkan data";
             }
         }
     } else {
         $error = "Silahkan masukkan semua data";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
