@@ -18,31 +18,42 @@ $namaIbu    = "";
 $error      = "";
 $sukses     = "";
 $op         = "";
+$idSiswa         = "";
 
-$idSiswa = "";
-if (isset($_GET['idSiswa'])) {
-    $idSiswa = $_GET['idSiswa'];
+if (isset($_GET['op'])) {
+    $op = $_GET['op'];
+} else {
+    $op = "";
 }
-
-if (isset($_GET['op'], $idSiswa) && $_GET['op'] == 'edit') {
-    $sql = "SELECT * FROM siswa WHERE idSiswa = ?";
-    $stmt = mysqli_prepare($koneksi, $sql);
-    mysqli_stmt_bind_param($stmt, 'i', $idSiswa);
-    mysqli_stmt_execute($stmt);
-    $r1 = mysqli_stmt_get_result($stmt);
-    if (mysqli_num_rows($r1) > 0) {
-        $siswa = mysqli_fetch_assoc($r1);
-        $nisn = $siswa['nisn'];
-        $namaSiswa = $siswa['namaSiswa'];
-        $jkSiswa = $siswa['jkSiswa'];
-        $tgLahir = $siswa['tgLahir'];
-        $namaIbu = $siswa['namaIbu'];
-        $nikSiswa = $siswa['nikSiswa'];
-    } else {
-        $error = "Data Tidak Ditemukan";
+if($op == 'delete'){
+    $idSiswa         = $_GET['idSiswa'];
+    $sql1       = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
+    $q1         = mysqli_query($koneksi,$sql1);
+    if($q1){
+        $sukses = "Berhasil hapus data";
+    }else{
+        $error  = "Gagal melakukan delete data";
     }
 }
 
+if ($op == 'edit') {
+    $idSiswa = $_GET['idSiswa'];
+    $sql1 = "SELECT * FROM siswa WHERE idSiswa = '$idSiswa'";
+    $q1 = mysqli_query($koneksi, $sql1);
+    $r1 = mysqli_fetch_array($q1);
+    $nikSiswa = $r1['nikSiswa'];
+    $nisn = $r1['nisn'];
+    $namaSiswa = $r1['namaSiswa'];
+    $jkSiswa = $r1['jkSiswa'];
+    $tgLahir = $r1['tgLahir'];
+    $namaIbu = $r1['namaIbu'];
+
+    if ($nikSiswa == '') {
+        $error = "Data tidak ditemukan";
+    }
+    
+
+}
 
 //untuk menangkap nilai yang di inputkan
 // input dari elemen name="nisn" dimasukan ke variable $nisn
@@ -56,7 +67,7 @@ if (isset($_POST['simpan'])) {
 
     //mengirim variable ke database
     if ($namaSiswa && $jkSiswa && $tgLahir && $namaIbu && $nikSiswa && $nisn) {
-        $sql1 = "INSERT INTO siswa (nama, jkSiswa, tglahir, data_ibu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$namaIbu', '$nikSiswa', '$nisn')";
+        $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, namaIbu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$namaIbu', '$nikSiswa', '$nisn')";
         try {
             $q1 = mysqli_query($koneksi, $sql1);
             if ($q1) {
@@ -90,7 +101,7 @@ if (isset($_POST['simpan'])) {
 
     <style>
         .mx-auto {
-            width: 900px;
+            width: 80%;
         }
 
         .card {
@@ -110,7 +121,7 @@ if (isset($_POST['simpan'])) {
         }
 
         .data {
-            width: 90%;
+            width: 80%;
         }
     </style>
 
@@ -169,7 +180,7 @@ if (isset($_POST['simpan'])) {
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="dataIbu" class="col-sm-2 col-form-label">Data Ibu</label>
+                        <label for="dataIbu" class="col-sm-2 col-form-label">Nama Ibu</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="namaIbu" placeholder="Data Ibu">
                         </div>
@@ -223,8 +234,8 @@ if (isset($_POST['simpan'])) {
                                 <td scope="row"><?php echo $nikSiswa ?></td>
                                 <td scope="row"><?php echo $nisn ?></td>
                                 <td scope="row">
-                                    <a href="crudSiswa.php?op=edit&id=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                                    <a href="crudSiswa.php?op=edit&id=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger">Delete</button></a>
+                                    <a href="crudSiswa.php?op=edit&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
+                                    <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete">Delete</button></a>
                                 </td>
 
                             </tr>

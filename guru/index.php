@@ -2,7 +2,7 @@
 $host       = "localhost";
 $user       = "root";
 $pass       = "";
-$db         = "guru";
+$db         = "erapor";
 
 $koneksi    = mysqli_connect($host, $user, $pass, $db);
 if (!$koneksi) { //cek koneksi
@@ -63,25 +63,15 @@ if (isset($_POST['simpan'])) { //untuk create
             $sql1   = "insert into guru(nama,nip,kelas,keterangan) values ('$nama','$nip','$kelas','$keterangan')";
             $q1     = mysqli_query($koneksi, $sql1);
             if ($q1) {
-<<<<<<< HEAD
                 $sukses  = "Berhasil memasukkan data baru";
             } else {
                 $error   = "Gagal memasukkan data";
-=======
-                $sukses     = "Berhasil memasukkan data baru";
-            } else {
-                $error      = "Gagal memasukkan data";
->>>>>>> 585a5eeef3cde5c48320bac8c26e326c56d25e8c
             }
         }
     } else {
         $error = "Silahkan masukkan semua data";
     }
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 585a5eeef3cde5c48320bac8c26e326c56d25e8c
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -186,11 +176,11 @@ if (isset($_POST['simpan'])) { //untuk create
                         $q2     = mysqli_query($koneksi, $sql2);
                         $urut   = 1;
                         while ($r2 = mysqli_fetch_array($q2)) {
-                            $id         = $r2['id'];
-                            $nama       = $r2['nama'];
-                            $nip        = $r2['nip'];
-                            $kelas      = $r2['kelas'];
-                            $keterangan = $r2['keterangan'];
+                            $id         = $r2 ['id'];
+                            $nama       = $r2 ['nama'];
+                            $nip        = $r2 ['nip'];
+                            $kelas      = $r2 ['kelas'];
+                            $keterangan = $r2 ['keterangan'];
 
                         ?>
                             <tr>
