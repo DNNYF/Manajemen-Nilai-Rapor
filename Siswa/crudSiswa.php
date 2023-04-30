@@ -14,6 +14,8 @@ $sukses     = "";
 $op         = "";
 $idSiswa    = "";
 $kelasSiswa      = "";
+$dapat      = "";
+$q2         = "";
 
 
 if (isset($_GET['op'])) {
@@ -24,7 +26,7 @@ if (isset($_GET['op'])) {
 if ($op == 'delete') {
     $idSiswa         = $_GET['idSiswa'];
     $sql1       = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
-    $q1         = mysqli_query($koneksi, $sql1);    
+    $q1         = mysqli_query($koneksi, $sql1);
     if ($q1) {
         $sukses = "Berhasil hapus data";
     } else {
@@ -51,6 +53,7 @@ if ($op == 'edit') {
     if ($nikSiswa == '') {
         $error = "Data tidak ditemukan";
     }
+
 
     //untuk menangkap nilai yang di inputkan
     // input dari elemen name="nisn" dimasukan ke variable $nisn
@@ -129,8 +132,8 @@ if (isset($_POST['simpan'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <script src="search.js"></script>
 
-    
 
     <title>CRUD</title>
 </head>
@@ -140,9 +143,11 @@ if (isset($_POST['simpan'])) {
         <div class="card">
             <!-- memasukan data siswa -->
             <div class="card-header">
-                <a href="crudSiswa.php"><button class="btn btn-success"> Back </button></a>
                 <div class="title">
-                    <h4>Create/Edit Data</h4>
+                    <a href="crudSiswa.php"><button class="back btn btn-warning"> Back </button></a>
+                </div>
+                <div class="">
+                    <h4 class="s">CREATE / EDIT DATA</h4>
                 </div>
             </div>
             <!-- menampilkan berhasil atau gagal menambahkan data -->
@@ -203,7 +208,7 @@ if (isset($_POST['simpan'])) {
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="jkSiswa" class="col-sm-2 col-form-label">Kelas *</label>
+                        <label for="kelasSiswa" class="col-sm-2 col-form-label">Kelas *</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="kelasSiswa">
                                 <option value="">- Kelas -</option>
@@ -237,17 +242,29 @@ if (isset($_POST['simpan'])) {
     <!-- menampilkan data siswa -->
     <div class="data mx-auto">
         <div class="card">
-            <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
+            <h5 class="card-header text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
                 <form method="POST">
                     <div class="data-head">
-                        <input type="text" class="search form-control" placeholder="Cari siswa.." aria-describedby="button-addon2" name="search"> <!--search field -->
-                        <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
+                        <div class="sort">
+                            <select class="sort-kelas form-control" name="sortKelas">
+                                    <option value="noKelas">-kelas-</option>
+                                <?php foreach ($qKelas as $rowKelas) { ?>
+                                    <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
+                                <?php } ?>
+                            </select>
+                            <button class="btn btn-outline-primary" type="submit" name="sort">Sortir</button>
+                        </div>
+
+                        <div class="search-field">
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Siswa" class="search form-control"> <!--search field -->
+                            <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
+                        </div>
                     </div>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover table-striped" id="myTable">
                     <thead>
-                        <tr class="head">
+                        <tr class="thead">
                             <th scope="col">#</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">JENIS KELAMIN</th>
@@ -260,26 +277,23 @@ if (isset($_POST['simpan'])) {
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        if (isset($_POST['submit'])) { //fungsi search
-                            $search = mysqli_real_escape_string($koneksi, $_POST['search']);
-                            $query = "SELECT * FROM siswa WHERE namaSiswa LIKE '%$search%'";
-                            $result = mysqli_query($koneksi, $query);
-                            $kondisi = $result;
+                        if (isset($_POST['sortKelas']) && $_POST['sortKelas'] != 'noKelas') {
+                            $kelas = $_POST['sortKelas'];
+                            $sql = "SELECT * FROM siswa WHERE kelasSiswa='$kelas' ORDER BY namaSiswa ASC";
                         } else {
-                            $sql2   = "SELECT * FROM siswa order by idSiswa asc";
-                            $q2     = mysqli_query($koneksi, $sql2);
-                            $kondisi = $q2;
+                            $sql = "SELECT * FROM siswa ORDER BY namaSiswa ASC";
                         }
-                        $urut = 1;
-                        while ($r2 = mysqli_fetch_array($kondisi)) {
-                            $idSiswa = $r2['idSiswa'];
-                            $namaSiswa = $r2['namaSiswa'];
-                            $jkSiswa = $r2['jkSiswa'];
+                        $q2             = mysqli_query($koneksi, $sql);
+                        $urut           = 1;
+                        while ($r2      = mysqli_fetch_array($q2)) {
+                            $idSiswa    = $r2['idSiswa'];
+                            $namaSiswa  = $r2['namaSiswa'];
+                            $jkSiswa    = $r2['jkSiswa'];
                             $kelasSiswa = $r2['kelasSiswa'];
-                            $tgLahir = $r2['tgLahir'];
-                            $namaIbu = $r2['namaIbu'];
-                            $nikSiswa = $r2['nikSiswa'];
-                            $nisn = $r2['nisn'];
+                            $tgLahir    = $r2['tgLahir'];
+                            $namaIbu    = $r2['namaIbu'];
+                            $nikSiswa   = $r2['nikSiswa'];
+                            $nisn       = $r2['nisn'];
                         ?>
 
                             <tr>

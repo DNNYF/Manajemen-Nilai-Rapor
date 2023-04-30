@@ -1,5 +1,5 @@
 * {
-  margin: 0px;
+  margin: 0;
   padding: 0px;
 }
 
@@ -11,7 +11,7 @@
   margin-top: 10px;
 }
 
-.head {
+.thead {
   text-align: center;
   vertical-align: middle;
 }
@@ -23,23 +23,46 @@
 
 .card-header {
   display: flex;
-  align-items: center;
+  
 }
 
-.title {
-  justify-items: center;
-  padding: 10px;
+.back{
+  margin-right: 10px;
+}
+
+.s{
+  margin-top: 3px;
 }
 
 #h4 {
-  margin: 0px;
+  margin: 0;
 }
 
 .search {
-  width: 15%;
+  width: 200px;
+  margin-right: 2px;
+}
+
+.sort {
+  width: 20%;
+  display: flex;
+  margin: 10px;
+}
+.search-field {
+  display: flex;
+  margin: 10px;
 }
 .data-head {
   display: flex;
-  margin: 10px;
-  justify-content: end;
+  justify-content: space-between;
 }
+.sort-kelas {
+  margin-right: 2px;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+}
+
+

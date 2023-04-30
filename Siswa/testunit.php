@@ -1,7 +1,4 @@
 <?php
-
-// todo : nambah back button , ceck input & update //
-
 include "../connection/koneksi.php";
 
 // deklarasi varible data siswa
@@ -16,6 +13,8 @@ $error      = "";
 $sukses     = "";
 $op         = "";
 $idSiswa    = "";
+$kelasSiswa      = "";
+$dapat      = "";
 
 
 if (isset($_GET['op'])) {
@@ -54,6 +53,9 @@ if ($op == 'edit') {
         $error = "Data tidak ditemukan";
     }
 
+    if (isset($_POST['sort'])) {
+        $cari   = mysqli_real_escape_string($koneksi, $_POST['sort']);
+    }
     //untuk menangkap nilai yang di inputkan
     // input dari elemen name="nisn" dimasukan ke variable $nisn
     if (isset($_POST['edit'])) {
@@ -63,7 +65,7 @@ if ($op == 'edit') {
         $jkSiswa    = mysqli_real_escape_string($koneksi, $_POST['jkSiswa']);
         $tgLahir    = mysqli_real_escape_string($koneksi, $_POST['tgLahir']);
         $namaIbu    = mysqli_real_escape_string($koneksi, $_POST['namaIbu']);
-        $kelasSiswa = mysqli_real_escape_string($koneksi, $_POST['$kelas']);
+        $kelasSiswa = mysqli_real_escape_string($koneksi, $_POST['kelasSiswa']);
 
         //mengirim variable ke database
         if ($namaSiswa && $jkSiswa && $kelasSiswa && $nikSiswa && $nisn) {
@@ -130,49 +132,9 @@ if (isset($_POST['simpan'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="search.js"></script>
 
-    <style>
-        * {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .mx-auto {
-            width: 80%;
-        }
-
-        .card {
-            margin-top: 10px;
-        }
-
-        .head {
-            text-align: center;
-            vertical-align: middle;
-            ;
-        }
-
-        .table-position {
-            vertical-align: middle;
-            ;
-            text-align: center;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .title {
-            justify-items: center;
-            padding: 10px;
-
-        }
-
-        #h4 {
-            margin: 0px;
-        }
-    </style>
 
     <title>CRUD</title>
 </head>
@@ -245,7 +207,7 @@ if (isset($_POST['simpan'])) {
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="jkSiswa" class="col-sm-2 col-form-label">Kelas *</label>
+                        <label for="kelasSiswa" class="col-sm-2 col-form-label">Kelas *</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="kelasSiswa">
                                 <option value="">- Kelas -</option>
@@ -282,12 +244,25 @@ if (isset($_POST['simpan'])) {
             <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
                 <form method="POST">
-                    <input type="text" name="search" placeholder="Cari siswa...">
-                    <button type="submit" name="submit">Cari</button>
+                    <div class="data-head">
+                        <div class="sort">
+                            <select class="sort-kelas form-control" name="sortKelas">
+                                <?php foreach ($qKelas as $rowKelas) { ?>
+                                    <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
+                                <?php } ?>
+                            </select>
+                            <button class="btn btn-outline-primary" type="submit" name="sort">Sortir</button>
+                        </div>
+
+                        <div class="search-field">
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." class="search form-control"> <!--search field -->
+                            <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
+                        </div>
+                    </div>
                 </form>
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover table-striped" id="myTable">
                     <thead>
-                        <tr class="head">
+                        <tr class="thead">
                             <th scope="col">#</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">JENIS KELAMIN</th>
@@ -300,18 +275,16 @@ if (isset($_POST['simpan'])) {
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        if (isset($_POST['submit'])) {
-                            $search = mysqli_real_escape_string($koneksi, $_POST['search']);
-                            $query = "SELECT * FROM siswa WHERE namaSiswa LIKE '%$search%'";
-                            $result = mysqli_query($koneksi, $query);
-                            $kondisi = $result;
+                        if (isset($_POST['sort'])) {
+                            $kelas = $_POST['sortKelas'];
+                            $sql = "SELECT * FROM siswa WHERE kelasSiswa='$kelas' ORDER BY namaSiswa ASC";
                         } else {
-                            $sql2   = "SELECT * FROM siswa order by idSiswa asc";
-                            $q2     = mysqli_query($koneksi, $sql2);
-                            $kondisi = $q2;
+                            $sql = "SELECT * FROM siswa ORDER BY namaSiswa ASC";
                         }
+
+                        $q2 = mysqli_query($koneksi, $sql);
                         $urut = 1;
-                        while ($r2 = mysqli_fetch_array($kondisi)) {
+                        while ($r2 = mysqli_fetch_array($q2)) {
                             $idSiswa = $r2['idSiswa'];
                             $namaSiswa = $r2['namaSiswa'];
                             $jkSiswa = $r2['jkSiswa'];
@@ -335,7 +308,9 @@ if (isset($_POST['simpan'])) {
                                     <a href="crudSiswa.php?op=edit&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
                                     <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete">Delete</button></a>
                                 </td>
+
                             </tr>
+
                         <?php
                         }
                         ?>
