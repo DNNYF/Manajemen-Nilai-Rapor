@@ -1,0 +1,45 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.mx-auto {
+  width: 80%;
+}
+
+.card {
+  margin-top: 10px;
+}
+
+.head {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-position {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  justify-items: center;
+  padding: 10px;
+}
+
+#h4 {
+  margin: 0px;
+}
+
+.search {
+  width: 15%;
+}
+.data-head {
+  display: flex;
+  margin: 10px;
+  justify-content: end;
+}

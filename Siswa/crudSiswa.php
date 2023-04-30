@@ -24,7 +24,7 @@ if (isset($_GET['op'])) {
 if ($op == 'delete') {
     $idSiswa         = $_GET['idSiswa'];
     $sql1       = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
-    $q1         = mysqli_query($koneksi, $sql1);
+    $q1         = mysqli_query($koneksi, $sql1);    
     if ($q1) {
         $sukses = "Berhasil hapus data";
     } else {
@@ -128,47 +128,9 @@ if (isset($_POST['simpan'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="style.css">
 
-    <style>
-        *{
-            margin: 0px;
-            padding: 0px;
-        }
-        .mx-auto {
-            width: 80%;
-        }
-
-        .card {
-            margin-top: 10px;
-        }
-
-        .head {
-            text-align: center;
-            vertical-align: middle;
-            ;
-        }
-
-        .table-position {
-            vertical-align: middle;
-            ;
-            text-align: center;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-        }
-
-        .title {
-            justify-items: center;
-            padding: 10px;
-
-        }
-        #h4{
-            margin: 0px;
-        }
-    </style>
+    
 
     <title>CRUD</title>
 </head>
@@ -277,9 +239,11 @@ if (isset($_POST['simpan'])) {
         <div class="card">
             <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
-            <form method="POST">
-                    <input type="text" name="search" placeholder="Cari siswa..."> <!--search field -->
-                    <button type="submit" name="submit">Cari</button>
+                <form method="POST">
+                    <div class="data-head">
+                        <input type="text" class="search form-control" placeholder="Cari siswa.." aria-describedby="button-addon2" name="search"> <!--search field -->
+                        <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
+                    </div>
                 </form>
                 <table class="table table-bordered table-hover">
                     <thead>
