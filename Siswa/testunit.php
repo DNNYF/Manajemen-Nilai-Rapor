@@ -1,4 +1,7 @@
 <?php
+
+// todo : nambah back button , ceck input & update //
+
 include "../connection/koneksi.php";
 
 // deklarasi varible data siswa
@@ -13,7 +16,6 @@ $error      = "";
 $sukses     = "";
 $op         = "";
 $idSiswa    = "";
-$kelasSiswa      = "";
 
 
 if (isset($_GET['op'])) {
@@ -61,7 +63,7 @@ if ($op == 'edit') {
         $jkSiswa    = mysqli_real_escape_string($koneksi, $_POST['jkSiswa']);
         $tgLahir    = mysqli_real_escape_string($koneksi, $_POST['tgLahir']);
         $namaIbu    = mysqli_real_escape_string($koneksi, $_POST['namaIbu']);
-        $kelasSiswa = mysqli_real_escape_string($koneksi, $_POST['kelasSiswa']);
+        $kelasSiswa = mysqli_real_escape_string($koneksi, $_POST['$kelas']);
 
         //mengirim variable ke database
         if ($namaSiswa && $jkSiswa && $kelasSiswa && $nikSiswa && $nisn) {
@@ -131,10 +133,11 @@ if (isset($_POST['simpan'])) {
     <link rel="stylesheet" href="../assets/css/style.css">
 
     <style>
-        *{
+        * {
             margin: 0px;
             padding: 0px;
         }
+
         .mx-auto {
             width: 80%;
         }
@@ -165,7 +168,8 @@ if (isset($_POST['simpan'])) {
             padding: 10px;
 
         }
-        #h4{
+
+        #h4 {
             margin: 0px;
         }
     </style>
@@ -277,8 +281,8 @@ if (isset($_POST['simpan'])) {
         <div class="card">
             <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
-            <form method="POST">
-                    <input type="text" name="search" placeholder="Cari siswa..."> <!--search field -->
+                <form method="POST">
+                    <input type="text" name="search" placeholder="Cari siswa...">
                     <button type="submit" name="submit">Cari</button>
                 </form>
                 <table class="table table-bordered table-hover">
@@ -296,7 +300,7 @@ if (isset($_POST['simpan'])) {
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        if (isset($_POST['submit'])) { //fungsi search
+                        if (isset($_POST['submit'])) {
                             $search = mysqli_real_escape_string($koneksi, $_POST['search']);
                             $query = "SELECT * FROM siswa WHERE namaSiswa LIKE '%$search%'";
                             $result = mysqli_query($koneksi, $query);
@@ -331,9 +335,7 @@ if (isset($_POST['simpan'])) {
                                     <a href="crudSiswa.php?op=edit&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
                                     <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete">Delete</button></a>
                                 </td>
-
                             </tr>
-
                         <?php
                         }
                         ?>
