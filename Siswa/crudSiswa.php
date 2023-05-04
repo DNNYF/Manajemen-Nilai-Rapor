@@ -154,7 +154,7 @@ if (isset($_POST['simpan'])) {
             <?php
             if ($error) {
                 echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
-                header("refresh:2;url=crudSiswa.php"); //5 : detik
+                header("refresh:2;url=crudSiswa.php"); //2 : detik
             };
             ?>
             <?php
@@ -197,7 +197,7 @@ if (isset($_POST['simpan'])) {
                     <div class="mb-3 row">
                         <label for="tgLahir" class="col-sm-2 col-form-label">Tanggal Lahir *</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" name="tgLahir" value="<?php echo $new_format_tgl ?>">
+                            <input type="date" class="form-control" name="tgLahir" value="<?php echo $tgLahir ?>">
                         </div>
                     </div>
 
@@ -248,7 +248,7 @@ if (isset($_POST['simpan'])) {
                     <div class="data-head">
                         <div class="sort">
                             <select class="sort-kelas form-control" name="sortKelas">
-                                    <option value="noKelas">-kelas-</option>
+                                <option value="noKelas">-kelas-</option>
                                 <?php foreach ($qKelas as $rowKelas) { ?>
                                     <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
                                 <?php } ?>

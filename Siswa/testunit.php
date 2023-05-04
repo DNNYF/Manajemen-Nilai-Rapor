@@ -15,6 +15,7 @@ $op         = "";
 $idSiswa    = "";
 $kelasSiswa      = "";
 $dapat      = "";
+$q2         = "";
 
 
 if (isset($_GET['op'])) {
@@ -53,9 +54,7 @@ if ($op == 'edit') {
         $error = "Data tidak ditemukan";
     }
 
-    if (isset($_POST['sort'])) {
-        $cari   = mysqli_real_escape_string($koneksi, $_POST['sort']);
-    }
+
     //untuk menangkap nilai yang di inputkan
     // input dari elemen name="nisn" dimasukan ke variable $nisn
     if (isset($_POST['edit'])) {
@@ -144,9 +143,11 @@ if (isset($_POST['simpan'])) {
         <div class="card">
             <!-- memasukan data siswa -->
             <div class="card-header">
-                <a href="crudSiswa.php"><button class="btn btn-success"> Back </button></a>
                 <div class="title">
-                    <h4>Create/Edit Data</h4>
+                    <a href="crudSiswa.php"><button class="back btn btn-warning"> Back </button></a>
+                </div>
+                <div class="">
+                    <h4 class="s">CREATE / EDIT DATA</h4>
                 </div>
             </div>
             <!-- menampilkan berhasil atau gagal menambahkan data -->
@@ -241,12 +242,13 @@ if (isset($_POST['simpan'])) {
     <!-- menampilkan data siswa -->
     <div class="data mx-auto">
         <div class="card">
-            <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
+            <h5 class="card-header text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
                 <form method="POST">
                     <div class="data-head">
                         <div class="sort">
                             <select class="sort-kelas form-control" name="sortKelas">
+                                    <option value="noKelas">-kelas-</option>
                                 <?php foreach ($qKelas as $rowKelas) { ?>
                                     <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
                                 <?php } ?>
@@ -255,7 +257,7 @@ if (isset($_POST['simpan'])) {
                         </div>
 
                         <div class="search-field">
-                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." class="search form-control"> <!--search field -->
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Siswa" class="search form-control"> <!--search field -->
                             <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
                         </div>
                     </div>
@@ -275,24 +277,23 @@ if (isset($_POST['simpan'])) {
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        if (isset($_POST['sort'])) {
+                        if (isset($_POST['sortKelas']) && $_POST['sortKelas'] != 'noKelas') {
                             $kelas = $_POST['sortKelas'];
                             $sql = "SELECT * FROM siswa WHERE kelasSiswa='$kelas' ORDER BY namaSiswa ASC";
                         } else {
                             $sql = "SELECT * FROM siswa ORDER BY namaSiswa ASC";
                         }
-
-                        $q2 = mysqli_query($koneksi, $sql);
-                        $urut = 1;
-                        while ($r2 = mysqli_fetch_array($q2)) {
-                            $idSiswa = $r2['idSiswa'];
-                            $namaSiswa = $r2['namaSiswa'];
-                            $jkSiswa = $r2['jkSiswa'];
+                        $q2             = mysqli_query($koneksi, $sql);
+                        $urut           = 1;
+                        while ($r2      = mysqli_fetch_array($q2)) {
+                            $idSiswa    = $r2['idSiswa'];
+                            $namaSiswa  = $r2['namaSiswa'];
+                            $jkSiswa    = $r2['jkSiswa'];
                             $kelasSiswa = $r2['kelasSiswa'];
-                            $tgLahir = $r2['tgLahir'];
-                            $namaIbu = $r2['namaIbu'];
-                            $nikSiswa = $r2['nikSiswa'];
-                            $nisn = $r2['nisn'];
+                            $tgLahir    = $r2['tgLahir'];
+                            $namaIbu    = $r2['namaIbu'];
+                            $nikSiswa   = $r2['nikSiswa'];
+                            $nisn       = $r2['nisn'];
                         ?>
 
                             <tr>
