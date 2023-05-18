@@ -54,7 +54,6 @@ if ($op == 'edit') {
         $error = "Data tidak ditemukan";
     }
 
-
     //untuk menangkap nilai yang di inputkan
     // input dari elemen name="nisn" dimasukan ke variable $nisn
     if (isset($_POST['edit'])) {
@@ -258,7 +257,6 @@ if (isset($_POST['simpan'])) {
 
                         <div class="search-field">
                             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Siswa" class="search form-control"> <!--search field -->
-                            <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
                         </div>
                     </div>
                 </form>

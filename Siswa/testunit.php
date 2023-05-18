@@ -13,7 +13,7 @@ $error      = "";
 $sukses     = "";
 $op         = "";
 $idSiswa    = "";
-$kelasSiswa      = "";
+$kelasSiswa = "";
 $dapat      = "";
 $q2         = "";
 
@@ -131,10 +131,10 @@ if (isset($_POST['simpan'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     <script src="search.js"></script>
-
-
+    <link rel="stylesheet" href="style.css">
     <title>CRUD</title>
 </head>
 
@@ -144,7 +144,7 @@ if (isset($_POST['simpan'])) {
             <!-- memasukan data siswa -->
             <div class="card-header">
                 <div class="title">
-                    <a href="crudSiswa.php"><button class="back btn btn-warning"> Back </button></a>
+                    <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
                 </div>
                 <div class="">
                     <h4 class="s">CREATE / EDIT DATA</h4>
@@ -165,6 +165,12 @@ if (isset($_POST['simpan'])) {
             ?>
             <div class="card-body">
                 <form action="" method="POST">
+                    <p>
+                        <a href="import.php"><button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                <img class="icon-exel" style="width: 15px; height: 15px;" src="../assets/img/exel.png" alt=""> Exel
+                            </button>
+                        </a>
+                    </p>
                     <div class="mb-3 row">
                         <label for="nikSiswa" class="col-sm-2 col-form-label">NIK *</label>
                         <div class="col-sm-10">
@@ -248,7 +254,7 @@ if (isset($_POST['simpan'])) {
                     <div class="data-head">
                         <div class="sort">
                             <select class="sort-kelas form-control" name="sortKelas">
-                                    <option value="noKelas">-kelas-</option>
+                                <option value="noKelas">-kelas-</option>
                                 <?php foreach ($qKelas as $rowKelas) { ?>
                                     <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
                                 <?php } ?>
@@ -258,7 +264,6 @@ if (isset($_POST['simpan'])) {
 
                         <div class="search-field">
                             <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Siswa" class="search form-control"> <!--search field -->
-                            <button class="btn btn-outline-primary" type="submit" name="submit">Cari</button>
                         </div>
                     </div>
                 </form>
@@ -307,7 +312,25 @@ if (isset($_POST['simpan'])) {
                                 <td scope="row"><?php echo $nisn ?></td>
                                 <td scope="row">
                                     <a href="crudSiswa.php?op=edit&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
-                                    <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete">Delete</button></a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button>
+                                    <!-- KONFIRMASI DELETE DATA -->
+                                    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin Ingin Menghapus ?</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
 
                             </tr>
@@ -320,6 +343,8 @@ if (isset($_POST['simpan'])) {
                 </table>
             </div>
         </div>
+    </div>
+
 </body>
 
 </html>

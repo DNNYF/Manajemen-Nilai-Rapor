@@ -11,32 +11,24 @@
   margin-top: 10px;
 }
 
-.thead {
+.thead .table-position {
   text-align: center;
   vertical-align: middle;
 }
 
-.table-position {
-  vertical-align: middle;
-  text-align: center;
-}
 
 .card-header {
   display: flex;
-  
 }
 
-.back{
+.back {
   margin-right: 10px;
 }
 
-.s{
+.s {
   margin-top: 3px;
 }
 
-#h4 {
-  margin: 0;
-}
 
 .search {
   width: 200px;
@@ -64,5 +56,19 @@
 .table {
   width: 100%;
 }
+.upload-file {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
 
+.link-unduh{
+  margin-bottom: 5px;
+}
+.import {
+  padding-left: 10px;
+}
 
+.link-unduh{
+  margin-left: 10px;
+}
