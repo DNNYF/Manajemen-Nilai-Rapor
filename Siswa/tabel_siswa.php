@@ -43,7 +43,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <a href="import.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></a>
+                                                    <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></a>
                                                 </div>
                                             </div>
                                         </div>

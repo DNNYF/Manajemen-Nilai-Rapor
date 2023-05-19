@@ -16,7 +16,6 @@
   vertical-align: middle;
 }
 
-
 .card-header {
   display: flex;
 }
@@ -24,11 +23,6 @@
 .back {
   margin-right: 10px;
 }
-
-.s {
-  margin-top: 3px;
-}
-
 
 .search {
   width: 200px;
@@ -71,4 +65,7 @@
 
 .link-unduh{
   margin-left: 10px;
+}
+.asd{
+  margin-right: 1000px;
 }

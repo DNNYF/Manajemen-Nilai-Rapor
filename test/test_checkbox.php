@@ -13,7 +13,6 @@ if (isset($_POST['delete_all'])) {
             $delete_query = "DELETE FROM siswa WHERE idSiswa = '$id'";
             mysqli_query($koneksi, $delete_query);
         }
-
         // Tampilkan pesan sukses
         echo '<div class="alert alert-success" role="alert">Data berhasil dihapus</div>';
     } else {
@@ -41,17 +40,13 @@ while ($r2      = mysqli_fetch_array($q2)) {
     $namaIbu    = $r2['namaIbu'];
     $nikSiswa   = $r2['nikSiswa'];
     $nisn       = $r2['nisn'];
-    
+
 ?>
 
     <tr>
-        <td scope="row">
-            <input type="checkbox" name="selected_ids[]" value="<?php echo $idSiswa ?>">
-        </td>
-        <td scope="row"><?php echo $urut++ ?></td>
         <td scope="row"><?php echo $namaSiswa ?></td>
         <td scope="row" class="jk"><?php echo $jkSiswa ?></td>
-        <td scope="row"><?php echo $tgLahir ?></td>
+        <td scope="row" class="text-center"><?php echo $tgLahir ?></td>
         <td scope="row"><?php echo $kelasSiswa ?></td>
         <td scope="row"><?php echo $namaIbu ?></td>
         <td scope="row"><?php echo $nikSiswa ?></td>

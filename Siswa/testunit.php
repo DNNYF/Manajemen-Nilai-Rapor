@@ -147,7 +147,7 @@ if (isset($_POST['simpan'])) {
                     <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
                 </div>
                 <div class="">
-                    <h4 class="s">CREATE / EDIT DATA</h4>
+                    <h4 class="">CREATE / EDIT DATA</h4>
                 </div>
             </div>
             <!-- menampilkan berhasil atau gagal menambahkan data -->

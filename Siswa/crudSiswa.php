@@ -1,127 +1,6 @@
 <?php
-include "../connection/koneksi.php";
-
-// deklarasi varible data siswa
-$nikSiswa   = "";
-$kelasSiswa = "";
-$nisn       = "";
-$namaSiswa  = "";
-$jkSiswa    = "";
-$tgLahir    = "";
-$namaIbu    = "";
-$error      = "";
-$sukses     = "";
-$op         = "";
-$idSiswa    = "";
-$kelasSiswa      = "";
-$dapat      = "";
-$q2         = "";
-
-
-if (isset($_GET['op'])) {
-    $op = $_GET['op'];
-} else {
-    $op = "";
-}
-if ($op == 'delete') {
-    $idSiswa         = $_GET['idSiswa'];
-    $sql1       = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
-    $q1         = mysqli_query($koneksi, $sql1);
-    if ($q1) {
-        $sukses = "Berhasil hapus data";
-    } else {
-        $error  = "Gagal melakukan delete data";
-    }
-}
-
-$sqlkelas   = "SELECT kelas FROM kelas";
-$qKelas     = mysqli_query($koneksi, $sqlkelas); //queryKelas
-$nokel      = 1;
-
-if ($op == 'edit') {
-    $idSiswa    = $_GET['idSiswa'];
-    $sql1       = "SELECT * FROM siswa WHERE idSiswa = '$idSiswa'";
-    $q1         = mysqli_query($koneksi, $sql1);
-    $r1         = mysqli_fetch_array($q1);
-    $nikSiswa   = $r1['nikSiswa'];
-    $nisn       = $r1['nisn'];
-    $namaSiswa  = $r1['namaSiswa'];
-    $jkSiswa    = $r1['jkSiswa'];
-    $tgLahir    = $r1['tgLahir'];
-    $kelasSiswa = $r1['kelasSiswa'];
-    $namaIbu    = $r1['namaIbu'];
-    if ($nikSiswa == '') {
-        $error = "Data tidak ditemukan";
-    }
-
-    //untuk menangkap nilai yang di inputkan
-    // input dari elemen name="nisn" dimasukan ke variable $nisn
-    if (isset($_POST['edit'])) {
-        $nikSiswa   = mysqli_real_escape_string($koneksi, $_POST['nikSiswa']);
-        $nisn       = mysqli_real_escape_string($koneksi, $_POST['nisn']);
-        $namaSiswa  = mysqli_real_escape_string($koneksi, $_POST['namaSiswa']);
-        $jkSiswa    = mysqli_real_escape_string($koneksi, $_POST['jkSiswa']);
-        $tgLahir    = mysqli_real_escape_string($koneksi, $_POST['tgLahir']);
-        $namaIbu    = mysqli_real_escape_string($koneksi, $_POST['namaIbu']);
-        $kelasSiswa = mysqli_real_escape_string($koneksi, $_POST['kelasSiswa']);
-
-        //mengirim variable ke database
-        if ($namaSiswa && $jkSiswa && $kelasSiswa && $nikSiswa && $nisn) {
-            $sql1 = "UPDATE siswa SET namaSiswa = '$namaSiswa', jkSiswa = '$jkSiswa', kelasSiswa = '$kelasSiswa', tgLahir = '$tgLahir', namaIbu = '$namaIbu', nikSiswa = '$nikSiswa', nisn = '$nisn' WHERE idSiswa='$idSiswa'";
-            try {
-                $q1 = mysqli_query($koneksi, $sql1);
-                if ($q1) {
-                    $sukses = "Berhasil memasukan data baru";
-                } else {
-                    $error = "Gagal Menambahkan Data";
-                }
-            } catch (mysqli_sql_exception $e) {
-                if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                    $error = "Gagal Menambahkan data";
-                } else {
-                    $error = $e->getMessage();
-                }
-            }
-        } else {
-            $error = "Silahkan masukan Data";
-        }
-    }
-}
-
-if (isset($_POST['simpan'])) {
-    $nikSiswa       = mysqli_real_escape_string($koneksi, $_POST['nikSiswa']);
-    $nisn           = mysqli_real_escape_string($koneksi, $_POST['nisn']);
-    $namaSiswa      = mysqli_real_escape_string($koneksi, $_POST['namaSiswa']);
-    $jkSiswa        = mysqli_real_escape_string($koneksi, $_POST['jkSiswa']);
-    $tgLahir        = mysqli_real_escape_string($koneksi, $_POST['tgLahir']);
-    $kelasSiswa     = mysqli_real_escape_string($koneksi, $_POST['kelasSiswa']);
-    $namaIbu        = mysqli_real_escape_string($koneksi, $_POST['namaIbu']);
-
-    //mengirim variable ke database
-    if ($namaSiswa && $jkSiswa && $tgLahir && $kelasSiswa && $nikSiswa && $nisn) {
-        $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$kelasSiswa', '$namaIbu', '$nikSiswa', '$nisn')";
-        try {
-            $q1 = mysqli_query($koneksi, $sql1);
-            if ($q1) {
-                $sukses = "Berhasil memasukan data baru";
-            } else {
-                $error = "Gagal Menambahkan Data";
-            }
-        } catch (mysqli_sql_exception $e) {
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                $error = "Gagal Menambahkan data";
-            } else {
-                $error = $e->getMessage();
-            }
-        }
-    } else {
-        $error = "Silahkan masukan Data";
-    }
-}
-
+require "proses_crud.php";
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -130,8 +9,11 @@ if (isset($_POST['simpan'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     <script src="search.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>CRUD</title>
 
 
     <title>CRUD</title>
@@ -143,10 +25,10 @@ if (isset($_POST['simpan'])) {
             <!-- memasukan data siswa -->
             <div class="card-header">
                 <div class="title">
-                    <a href="crudSiswa.php"><button class="back btn btn-warning"> Back </button></a>
+                    <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
                 </div>
                 <div class="">
-                    <h4 class="s">CREATE / EDIT DATA</h4>
+                    <h4 class="">CREATE / EDIT DATA</h4>
                 </div>
             </div>
             <!-- menampilkan berhasil atau gagal menambahkan data -->
@@ -159,7 +41,7 @@ if (isset($_POST['simpan'])) {
             <?php
             if ($sukses) {
                 echo '<div class="alert alert-success" role="alert">' . $sukses . '</div>';
-                header("refresh:2;url=crudSiswa.php");
+                header("refresh:2;url=crudSiswa.php"); //2 : detik
             };
             ?>
             <div class="card-body">
@@ -225,14 +107,10 @@ if (isset($_POST['simpan'])) {
                         </div>
                     </div>
                     <div class="button col-12">
-                        <?php
-                        if ($op == 'edit') {
-                            $button    = 'edit';
-                        } else {
-                            $button    = 'simpan';
-                        }
-                        ?>
-                        <input type="submit" name="<?php echo $button ?>" value="Simpan Data" class="btn btn-primary">
+                            <a href="import.php" class="btn btn-outline-success">
+                                    <img class="icon-exel" style="width: 15px; height: 15px;" src="../assets/img/exel.png" alt=""> Exel
+                            </a>
+                            <input type="submit" name="<?php echo $button ?>" value="Simpan Data" class="btn btn-primary">
                     </div>
                 </form>
             </div>
@@ -275,43 +153,7 @@ if (isset($_POST['simpan'])) {
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        if (isset($_POST['sortKelas']) && $_POST['sortKelas'] != 'noKelas') {
-                            $kelas = $_POST['sortKelas'];
-                            $sql = "SELECT * FROM siswa WHERE kelasSiswa='$kelas' ORDER BY namaSiswa ASC";
-                        } else {
-                            $sql = "SELECT * FROM siswa ORDER BY namaSiswa ASC";
-                        }
-                        $q2             = mysqli_query($koneksi, $sql);
-                        $urut           = 1;
-                        while ($r2      = mysqli_fetch_array($q2)) {
-                            $idSiswa    = $r2['idSiswa'];
-                            $namaSiswa  = $r2['namaSiswa'];
-                            $jkSiswa    = $r2['jkSiswa'];
-                            $kelasSiswa = $r2['kelasSiswa'];
-                            $tgLahir    = $r2['tgLahir'];
-                            $namaIbu    = $r2['namaIbu'];
-                            $nikSiswa   = $r2['nikSiswa'];
-                            $nisn       = $r2['nisn'];
-                        ?>
-
-                            <tr>
-                                <th scope="row"><?php echo $urut++ ?></th>
-                                <td scope="row"><?php echo $namaSiswa ?></td>
-                                <td scope="row" class="jk"><?php echo $jkSiswa ?></td>
-                                <td scope="row"><?php echo $tgLahir ?></td>
-                                <td scope="row"><?php echo $kelasSiswa ?></td>
-                                <td scope="row"><?php echo $namaIbu ?></td>
-                                <td scope="row"><?php echo $nikSiswa ?></td>
-                                <td scope="row"><?php echo $nisn ?></td>
-                                <td scope="row">
-                                    <a href="crudSiswa.php?op=edit&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
-                                    <a href="crudSiswa.php?op=delete&idSiswa=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger" name="delete">Delete</button></a>
-                                </td>
-
-                            </tr>
-
-                        <?php
-                        }
+                        require_once "tabel_siswa.php";
                         ?>
                     </tbody>
                     </thead>

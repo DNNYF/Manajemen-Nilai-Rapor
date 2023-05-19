@@ -56,8 +56,10 @@ function upfiles()
 
         if ($isError) {
             echo '<div class="alert alert-danger" role="alert">Error : Terdapat data duplikat</div>';
+            header("refresh:2;url=import.php"); //2 : detik
         } else {
             echo '<div class="alert alert-success" role="alert">Berhasil mengunggah file</div>';
+            header("refresh:2;url=import.php"); //2 : detik
         }
         unlink($target_file);
     }
