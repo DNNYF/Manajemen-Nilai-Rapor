@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+}
+
+.mx-auto {
+    width: 80%;
+}
+
+.card {
+    margin-top: 10px;
+}
+
+.head {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table-position {
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table {
+    margin: 0rem;
+    padding: 5rem;
+}
+
+.data {
+    width: 80%;
+}
+
+.inpNilai {
+    width: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.button {
+    margin: 10px;
+}
+
+.form-control {
+    width: 200px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.gsearch {
+    display: flex;
+    justify-content: space-between;
+}
+
+.select-mapel{
+    margin-left: 5px;
+}
+
+.card-header{
+    display: flex;
+}
+
+.back {
+    margin-right: 5px;
+}
+

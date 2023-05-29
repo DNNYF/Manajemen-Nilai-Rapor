@@ -61,8 +61,6 @@ if ($op == 'edit') {
         $error = "Data tidak ditemukan";
     }
 
-    //untuk menangkap nilai yang di inputkan
-    // input dari elemen name="nisn" dimasukan ke variable $nisn
     if (isset($_POST['edit'])) {
         $nikSiswa   = mysqli_real_escape_string($koneksi, $_POST['nikSiswa']);
         $nisn       = mysqli_real_escape_string($koneksi, $_POST['nisn']);
@@ -107,10 +105,13 @@ if (isset($_POST['simpan'])) {
     //mengirim variable ke database
     if ($namaSiswa && $jkSiswa && $tgLahir && $kelasSiswa && $nikSiswa && $nisn) {
         $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$kelasSiswa', '$namaIbu', '$nikSiswa', '$nisn')";
+        $sqlInsertNilai = "INSERT INTO nilai (nisn, semester, tugas, uts, uas) VALUES ('$nisn', '0', '0', '0', '0')";
         try {
             $q1 = mysqli_query($koneksi, $sql1);
-            if ($q1) {
-                $sukses = "Berhasil memasukan data baru";
+            $q2 = mysqli_query($koneksi, $sqlInsertNilai);
+            
+            if ($q1 && $q2) {
+                $sukses = "Berhasil memasukkan data baru";
             } else {
                 $error = "Gagal Menambahkan Data";
             }

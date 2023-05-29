@@ -48,8 +48,10 @@ function importfile()
 
                     // Query SQL untuk memasukkan data ke dalam tabel siswa
                     $sql = "INSERT INTO siswa (nikSiswa, nisn, namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu) VALUES ('$nikSiswa', '$nisn', '$namaSiswa', '$jkSiswa', '$tglLahir', '$kelasSiswa', '$namaIbu')";
+                    $sqlInsertNilai = "INSERT INTO nilai (nisn, semester, tugas, uts, uas) VALUES ('$nisn', '0', '0', '0', '0')";
                     try {
-                        mysqli_query($koneksi, $sql);
+                        $q1 = mysqli_query($koneksi, $sql);
+                        $q2 = mysqli_query($koneksi, $sqlInsertNilai);
                     } catch (mysqli_sql_exception $e) {
                         $isError = true; // Mengatur variabel flag menjadi true jika terjadi kesalahan
                         break;
