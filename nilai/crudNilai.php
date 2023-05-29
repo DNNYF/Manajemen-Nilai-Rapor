@@ -1,5 +1,6 @@
 <?php
 include "../connection/koneksi.php";
+require "../connection/session.php";
 
 $idSiswa    = "";
 $namaSiswa  = "";
@@ -12,8 +13,10 @@ $tugas      = "";
 $uts        = "";
 $uas        = "";
 $kelas      = "";
-$nokel      = "";
-
+$nokel      = 1;
+$resultInsert = "";
+$error      = "";
+$success    = "";
 $op         = isset($_GET['op']) ? $_GET['op'] : '';
 
 
@@ -23,102 +26,64 @@ $op         = isset($_GET['op']) ? $_GET['op'] : '';
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <title>Bootstrap Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="search.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>CRUD NILAI</title>
 
-    <style>
-        * {
-            margin: 0;
-        }
 
-        .mx-auto {
-            width: 80%;
-        }
-
-        .card {
-            margin-top: 10px;
-        }
-
-        .head {
-            text-align: center;
-            vertical-align: middle;
-            ;
-        }
-
-        .table-position {
-            vertical-align: middle;
-            ;
-            text-align: center;
-        }
-
-        .table {
-            margin: 0rem;
-            padding: 5rem;
-        }
-
-        .data {
-            width: 80%;
-        }
-
-        .inpNilai {
-            width: 55px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .button {
-            margin: 10px;
-        }
-
-        .form-control {
-            width: 200px;
-        }
-
-        .menu {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px;
-        }
-
-        .gsearch {
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
 
 </head>
 
 <body>
     <div class="mx-auto">
-        <div class="card">
-            <form action="POST">
+        <div class="card-header">
+            <div class="title">
+                <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
+            </div>
+            <div class="">
+                <h4 class="">CREATE / EDIT DATA</h4>
+            </div>
+        </div>
+        <form action="POST">
+            <div class="card">
                 <table class="table table-hover">
                     <thead>
                         <div class="menu">
                             <!-- Example single danger button -->
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="true">
-                                    Action
-                                </button>
-                                <ul class="dropdown-menu">
+                                <select class="form-control" name="kelasSiswa">
+                                    <option value="">- Kelas -</option>
                                     <?php
                                     $sqlkelas   = "SELECT kelas FROM kelas";
-                                    $qKelas     = mysqli_query($koneksi,$sqlkelas); //queryKelas
-                                    $nokel      = 1;
-                                    while($rowKelas = mysqli_fetch_array($qKelas)) {
+                                    $qKelas     = mysqli_query($koneksi, $sqlkelas); //queryKelas
+                                    while ($rowKelas = mysqli_fetch_array($qKelas)) {
                                         $nokel++;
                                         $kelas = $rowKelas['kelas'];
-                                        
-                                        ?>
-                                    <li><a class="dropdown-item" href="#" ><?php echo $kelas ?></a></li>
+                                    ?>
+                                        <option><?php echo $kelas ?></option>
                                     <?php
                                     }
                                     ?>
+
+                                </select>
+                                <select class="select-mapel form-control" name="mapel">
+                                    <option value="">- Mapel -</option>
+                                    <?php
+                                    $sqlMapel   = "SELECT mapel FROM mapel";
+                                    $qMapel     = mysqli_query($koneksi, $sqlMapel);
+                                    foreach ($qMapel as $rowMapel) { ?>
+                                        <option value="<?php echo $rowMapel['mapel']; ?>"><?php echo $rowMapel['mapel']; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+
+                                </select>
                                 </ul>
                             </div>
                             <div class="gsearch"> <!-- Group Search -->
@@ -128,8 +93,9 @@ $op         = isset($_GET['op']) ? $_GET['op'] : '';
                         </div>
                         <tr class="head">
                             <th scope="col">#</th>
-                            <th scope="col">Nama Siswa</th>
                             <th scope="col">NISN</th>
+                            <th scope="col">Nama Siswa</th>
+                            <th scope="col">Semester</th>
                             <th scope="col">Tugas</th>
                             <th scope="col">UTS</th>
                             <th scope="col">UAS</th>
@@ -137,21 +103,32 @@ $op         = isset($_GET['op']) ? $_GET['op'] : '';
                         </tr>
                     <tbody class="table-position">
                         <?php
-                        $sqlsiswa       = "SELECT siswa.idSiswa, siswa.namaSiswa, siswa.nisn, nilai.tugas, nilai.uts, nilai.uas FROM siswa JOIN nilai ON siswa.idSiswa = nilai.idSiswa";
-                        $q2             = mysqli_query($koneksi, $sqlsiswa);
+                        $sqlNilai       = "SELECT * FROM nilai";
+                        $queryNilai     = mysqli_query($koneksi, $sqlNilai);
+                        $sqlSiswa       = "SELECT namaSiswa, nisn FROM siswa";
+                        $querySiswa     = mysqli_query($koneksi, $sqlSiswa);
                         $nomor          = 1;
-                        while ($r2 = mysqli_fetch_array($q2)) {
-                            $idSiswa   = $r2['idSiswa'];
-                            $namaSiswa = $r2['namaSiswa'];
-                            $nisn      = $r2['nisn'];
-                            $tugas     = $r2['tugas'];
-                            $uts       = $r2['uts'];
-                            $uas       = $r2['uas'];
+
+                        while ($row1 = mysqli_fetch_array($queryNilai)) {
+                            $semester   = $row1['semester'];
+                            $tugas   = $row1['tugas'];
+                            $uas   = $row1['uas'];
+                            $uts   = $row1['uts'];
+                        }
+
+                        while ($row2 = mysqli_fetch_array($querySiswa)) {
+                            $namaSiswa = $row2['namaSiswa'];
+                            $nisn = $row2['nisn'];
                         ?>
                             <tr>
                                 <td scope="row"><?php echo $nomor++ ?></td>
+                                <td>
+                                    <input class="inpNilai" type="text" name="nisn" value="<?php echo $nisn ?>" readonly>
+                                </td>
                                 <td><?php echo $namaSiswa ?></td>
-                                <td><?php echo $nisn ?></td>
+                                <td>
+                                    <input class="inpNilai" type="number" name="semester" value="<?php echo $semester ?>">
+                                </td>
                                 <td>
                                     <input class="inpNilai" type="number" name="tugas" value="<?php echo $tugas ?>">
                                 </td>
@@ -163,11 +140,15 @@ $op         = isset($_GET['op']) ? $_GET['op'] : '';
                                 </td>
                                 <td>
                                     <?php
-                                    $n_nilai   = array($r2['tugas'], $r2['uts'], $r2['uas']);
-                                    $jml_nilai = count($n_nilai);
-                                    $sum_nilai = array_sum($n_nilai);
-                                    $rata_rata = $sum_nilai / $jml_nilai;
-                                    echo $rata_rata;
+                                    if ($row1 == null) {
+                                        echo $rata_rata = "0";
+                                    } else {
+                                        $n_nilai   = array($row1['tugas'], $row1['uts'], $row1['uas']);
+                                        $jml_nilai = count($n_nilai);
+                                        $sum_nilai = array_sum($n_nilai);
+                                        $rata_rata = $sum_nilai / $jml_nilai;
+                                        echo $rata_rata;
+                                    }
                                     ?>
                                 </td>
                             </tr>
@@ -181,23 +162,42 @@ $op         = isset($_GET['op']) ? $_GET['op'] : '';
                 <div class="button">
                     <button type="sumbit" class="btn btn-primary" name="simpan">Simpan</button></a>
                 </div>
-                <?
+                <?php
                 if (isset($_POST['simpan'])) {
-                    $idSiswa   = $_POST['idSiswa'];
-                    $namaSiswa = $_POST['namaSiswa'];
-                    $nisn      = $_POST['nisn'];
-                    $tugas     = $_POST['tugas'];
-                    $uts       = $_POST['uts'];
-                    $uas       = $_POST['uas'];
+                    $nisnArr = $_POST['nisn'];
+                    $semesterArr = $_POST['semester'];
+                    $tugasArr = $_POST['tugas'];
+                    $utsArr = $_POST['uts'];
+                    $uasArr = $_POST['uas'];
 
-                
+                    $values = "";
+                    for ($i = 0; $i < count($nisnArr); $i++) {
+                        $nisn = mysqli_real_escape_string($koneksi, $nisnArr[$i]);
+                        $semester = mysqli_real_escape_string($koneksi, $semesterArr[$i]);
+                        $tugas = mysqli_real_escape_string($koneksi, $tugasArr[$i]);
+                        $uts = mysqli_real_escape_string($koneksi, $utsArr[$i]);
+                        $uas = mysqli_real_escape_string($koneksi, $uasArr[$i]);
+
+                        $values .= "('$nisn','$semester','$tugas','$uas','$uts'),";
+                    }
+                    $values = rtrim($values, ",");
+
+                    $sqlInsert = "INSERT INTO nilai (nisn, semester, tugas, uas, uts) VALUES $values";
+                    $resultInsert = mysqli_query($koneksi, $sqlInsert);
+
+                    if ($resultInsert) {
+                        $success = "Berhasil Menambahkan Nilai";
+                    } else {
+                        $error = "Gagal Menambahkan Nilai";
+                    }
                 }
                 ?>
-            </form>
-            <!-- card -->
-        </div>
-        <!-- mx-auto -->
+        </form>
+        <!-- card -->
     </div>
+    <!-- mx-auto -->
+    </div>
+
 </body>
 
 </html>
