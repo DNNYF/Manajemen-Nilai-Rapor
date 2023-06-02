@@ -1,223 +1,148 @@
-<?php
-include "../connection/koneksi.php";
-require "../connection/session.php";
-
-$idSiswa    = "";
-$namaSiswa  = "";
-$nisn       = "";
-$tugas      = "";
-$uts        = "";
-$uas        = "";
-$urut       = "";
-$tugas      = "";
-$rata       = "";
-$uts        = "";
-$uas        = "";
-$kelas      = "";
-$nokel      = 1;
-$resultInsert = "";
-
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-    <script src="search.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>CRUD NILAI</title>
+    <title>Form Input Nilai Siswa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
 
+        h2 {
+            color: #333;
+            text-align: center;
+        }
 
+        form {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #kelas {
+            width: 80%;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="mx-auto">
-        <div class="card-header">
-            <div class="title">
-                <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Kembali </a>
-            </div>
-            <div class="">
-                <h4 class="">CREATE / EDIT DATA</h4>
-            </div>
-        </div>
-        <form method="POST">
-            <div class="card">
-                <table class="table table-hover">
-                    <thead>
-                        <div class="menu">
-                            <!-- Contoh tombol dropdown -->
-                            <div class="btn-group">
-                                <select class="form-control" name="kelasSiswa">
-                                    <option value="">- Kelas -</option>
-                                    <?php
-                                    $sqlkelas   = "SELECT kelas FROM kelas";
-                                    $qKelas     = mysqli_query($koneksi, $sqlkelas); //queryKelas
-                                    while ($rowKelas = mysqli_fetch_array($qKelas)) {
-                                        $nokel++;
-                                        $kelas = $rowKelas['kelas'];
-                                    ?>
-                                        <option><?php echo $kelas ?></option>
-                                    <?php
-                                    }
-                                    ?>
+    <h2>Form Input Nilai Siswa</h2>
+    <form method="POST" action="proses_input_nilai.php">
+        <?php
+        // Koneksi ke database
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "erapor";
 
-                                </select>
-                                <select class="select-mapel form-control" name="mapel">
-                                    <option value="">- Mapel -</option>
-                                    <?php
-                                    $sqlMapel   = "SELECT mapel FROM mapel";
-                                    $qMapel     = mysqli_query($koneksi, $sqlMapel);
-                                    foreach ($qMapel as $rowMapel) { ?>
-                                        <option value="<?php echo $rowMapel['mapel']; ?>"><?php echo $rowMapel['mapel']; ?></option>
-                                    <?php
-                                    }
-                                    ?>
+        $conn = new mysqli($servername, $username, $password, $database);
 
-                                </select>
-                                </ul>
-                            </div>
-                            <div class="gsearch"> <!-- Grup Pencarian -->
-                                <input class="form-control me-2" type="text" name="search" placeholder=" Cari">
-                                <button class="btn btn-warning">Cari</button>
-                            </div>
-                        </div>
-                        <tr class="head">
-                            <th scope="col">#</th>
-                            <th scope="col">NISN</th>
-                            <th scope="col">Nama Siswa</th>
-                            <th scope="col">Semester</th>
-                            <th scope="col">Tugas</th>
-                            <th scope="col">UTS</th>
-                            <th scope="col">UAS</th>
-                            <th scope="col">RATA RATA</th>
-                            <th scope="col">PREDIKAT</th>
+        // Memeriksa koneksi
+        if ($conn->connect_error) {
+            die("Koneksi gagal: " . $conn->connect_error);
+        }
 
-                        </tr>
-                    <tbody class="table-position">
-                        <?php
-                        $sqlNilai = "SELECT nilai.*, siswa.namaSiswa, siswa.nisn FROM nilai INNER JOIN siswa ON nilai.nisn = siswa.nisn";
-                        $queryNilai = mysqli_query($koneksi, $sqlNilai);
-                        $nomor = 1;
+        // Query untuk mendapatkan data kelas dari tabel kelas
+        $query_kelas = "SELECT kelas FROM kelas";
+        $result_kelas = $conn->query($query_kelas);
 
-                        while ($row1 = mysqli_fetch_array($queryNilai)) {
-                            $semester = $row1['semester'];
-                            $nisnSiswa = $row1['nisn'];
-                            $namaSiswa = $row1['namaSiswa'];
-                            $tugas = $row1['tugas'];
-                            $uas = $row1['uas'];
-                            $uts = $row1['uts'];
-                            $n_nilai = array($tugas, $uts, $uas);
-                            $jml_nilai = count($n_nilai);
-                            $sum_nilai = array_sum($n_nilai);
-                            $rata_rata = $jml_nilai > 0 ? $sum_nilai / $jml_nilai : 0;
+        if ($result_kelas->num_rows > 0) {
+            echo '<label for="kelas">Kelas:</label>';
+            echo '<select id="kelas" name="kelas">';
 
-                            if ($rata_rata > 0 && $rata_rata <= 50) {
-                                $predikat = "D";
-                            } elseif ($rata_rata > 50 && $rata_rata <= 60) {
-                                $predikat = "C";
-                            } elseif ($rata_rata > 60 && $rata_rata <= 75) {
-                                $predikat = "B";
-                            } elseif ($rata_rata > 75 && $rata_rata <= 100) {
-                                $predikat = "A";
-                            } else {
-                                $predikat = "Tidak Valid";
-                            }
+            while ($row_kelas = $result_kelas->fetch_assoc()) {
+                echo '<option value="' . $row_kelas["kelas"] . '">' . $row_kelas["kelas"] . '</option>';
+            }
 
-                           
+            echo '</select><br><br>';
+        }
 
+        // Menggunakan nilai yang dipilih dari dropdown kelas untuk query siswa
+        $query_siswa = "SELECT namaSiswa FROM siswa";
+        $result_siswa = $conn->query($query_siswa);
+        // Mengisi data siswa ke dalam pilihan dropdown
+        if ($result_siswa->num_rows > 0) {
+            echo '<label for="nama">Nama Siswa:</label>';
+            echo '<select id="nama" name="nama">';
 
-                        ?>
-                            <tr>
-                                <td scope="row"><?php echo $nomor++ ?></td>
-                                <td>
-                                    <input class="inpNilai" type="text" name="nisn[]" value="<?php echo $nisnSiswa ?>" readonly>
-                                </td>
-                                <td><?php echo $namaSiswa ?></td>
-                                <td>
-                                    <input class="inpNilai" type="number" name="semester[]" value="<?php echo $semester ?>">
-                                </td>
-                                <td>
-                                    <input class="inpNilai" type="number" name="tugas[]" value="<?php echo $tugas ?>">
-                                </td>
-                                <td>
-                                    <input class="inpNilai" type="number" name="uts[]" value="<?php echo $uts ?>">
-                                </td>
-                                <td>
-                                    <input class="inpNilai" type="number" name="uas[]" value="<?php echo $uas ?>">
-                                </td>
-                                <td>
-                                    <input class="inpNilai" type="number" name="rata[]" value="<?php echo $rata_rata ?>" readonly>
-                                </td>
-                                
-                                <td>
-                                    <input class="inpNilai" type="text" name="predikat[]" value="<?php echo $predikat ?>" readonly>
-                                </td>
+            while ($row_siswa = $result_siswa->fetch_assoc()) {
+                echo '<option value="' . $row_siswa["namaSiswa"] . '">' . $row_siswa["namaSiswa"] . '</option>';
+            }
 
-                            </tr>
-                        <?php
-                        }
-                        ?>
+            echo '</select><br><br>';
+        }
+        // Query untuk mendapatkan data mata pelajaran dari tabel mapel
+        $query_mapel = "SELECT mapel FROM mapel";
+        $result_mapel = $conn->query($query_mapel);
 
+        if ($result_mapel->num_rows > 0) {
+            echo '<label for="mapel">Mata Pelajaran:</label>';
+            echo '<select id="mapel" name="mapel">';
 
-                    </tbody>
-                    </thead>
+            while ($row_mapel = $result_mapel->fetch_assoc()) {
+                echo '<option value="' . $row_mapel["mapel"] . '">' . $row_mapel["mapel"] . '</option>';
+            }
 
-                </table>
-                <div class="button">
-                    <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
-                </div>
-                <?php
-                // ...
+            echo '</select><br><br>';
+        }
 
-                if (isset($_POST['simpan'])) {
-                    $nisnArr = $_POST['nisn'];
-                    $semesterArr = $_POST['semester'];
-                    $tugasArr = $_POST['tugas'];
-                    $utsArr = $_POST['uts'];
-                    $uasArr = $_POST['uas'];
-                    $rataArr = $_POST['rata'];
-                    $predikatArr = $_POST['predikat'];
+        // Menutup koneksi database
+        $conn->close();
 
-                    for ($i = 0; $i < count($nisnArr); $i++) {
-                        $nisn = mysqli_real_escape_string($koneksi, $nisnArr[$i]);
-                        $semester = mysqli_real_escape_string($koneksi, $semesterArr[$i]);
-                        $tugas = mysqli_real_escape_string($koneksi, $tugasArr[$i]);
-                        $uts = mysqli_real_escape_string($koneksi, $utsArr[$i]);
-                        $uas = mysqli_real_escape_string($koneksi, $uasArr[$i]);
+        ?>
 
-                        // Check if the array elements have valid indices before accessing them
-                        if (isset($rataArr[$i]) && isset($predikatArr[$i])) {
-                            $rata = mysqli_real_escape_string($koneksi, $rataArr[$i]);
-                            $predikat = mysqli_real_escape_string($koneksi, $predikatArr[$i]);
-                        } else {
-                            // Set default values or handle the case where the elements are not properly populated
-                            $rata = 0;
-                            $predikat = '';
-                        }
+        <label for="tugas">Nilai Tugas:</label>
+        <input type="number" id="tugas" name="tugas" min="0" max="100" required><br><br>
 
-                        $sqlUpdate = "UPDATE nilai SET semester='$semester', tugas='$tugas', uas='$uas', uts='$uts', rata_rata='$rata', predikat='$predikat' WHERE nisn='$nisn'";
-                        $resultUpdate = mysqli_query($koneksi, $sqlUpdate);
+        <label for="uas">Nilai UAS:</label>
+        <input type="number" id="uas" name="uas" min="0" max="100" required><br><br>
 
-                        if ($resultUpdate) {
-                            $success = "Berhasil Memperbarui Nilai";
-                        } else {
-                            $error = "Gagal Memperbarui Nilai";
-                        }
-                    }
-                }
-                ?>
-        </form>
-        <!-- card -->
-    </div>
-    <!-- mx-auto -->
-    </div>
+        <label for="uts">Nilai UTS:</label>
+        <input type="number" id="uts" name="uts" min="0" max="100" required><br><br>
 
+        <label for="semester">Semester:</label>
+        <select id="semester" name="semester">
+            <option value="1">Semester 1</option>
+            <option value="2">Semester 2</option>
+            <option value="3">Semester 3</option>
+            <option value="4">Semester 4</option>
+            <!-- Tambahkan opsi semester yang lain jika diperlukan -->
+        </select><br><br>
+
+        <label for="tahun_ajaran">Tahun Ajaran:</label>
+        <input type="text" id="tahun_ajaran" name="tahun_ajaran" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
 </body>
 
 </html>
