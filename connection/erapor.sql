@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 30, 2023 at 07:01 PM
+-- Generation Time: Jun 03, 2023 at 02:41 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -73,7 +73,27 @@ INSERT INTO `kelas` (`idKelas`, `kodeKelas`, `kelas`) VALUES
 (2, 'A02A', 'Kelas 2'),
 (3, 'A03A', 'Kelas 3'),
 (4, 'A04A', 'Kelas 4'),
-(5, 'A05A', 'Kelas 5');
+(5, 'A05A', 'Kelas 5'),
+(6, 'A06A', 'Kelas 6');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mapel`
+--
+
+CREATE TABLE `mapel` (
+  `kode_mapel` varchar(5) NOT NULL,
+  `mapel` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `mapel`
+--
+
+INSERT INTO `mapel` (`kode_mapel`, `mapel`) VALUES
+('A01', 'Bahasa Indonesia'),
+('A02', 'Bahasa Inggris');
 
 -- --------------------------------------------------------
 
@@ -83,14 +103,28 @@ INSERT INTO `kelas` (`idKelas`, `kodeKelas`, `kelas`) VALUES
 
 CREATE TABLE `nilai` (
   `idNilai` int(11) NOT NULL,
-  `idSiswa` int(11) DEFAULT NULL,
-  `namaSiswa` varchar(50) DEFAULT NULL,
-  `nisn` varchar(20) DEFAULT NULL,
-  `tugas` int(11) DEFAULT NULL,
-  `uts` int(11) DEFAULT NULL,
-  `uas` int(11) DEFAULT NULL,
-  `sum` int(11) NOT NULL
+  `namaSiswa` varchar(50) NOT NULL,
+  `kelasSiswa` varchar(10) NOT NULL,
+  `mapel` varchar(20) NOT NULL,
+  `nisn` varchar(20) NOT NULL,
+  `semester` varchar(20) NOT NULL,
+  `tugas` float NOT NULL,
+  `uas` float NOT NULL,
+  `uts` float NOT NULL,
+  `rata_rata` int(11) NOT NULL,
+  `predikat` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `nilai`
+--
+
+INSERT INTO `nilai` (`idNilai`, `namaSiswa`, `kelasSiswa`, `mapel`, `nisn`, `semester`, `tugas`, `uas`, `uts`, `rata_rata`, `predikat`) VALUES
+(1, 'Ana', 'Kelas 5', 'Bahasa Inggris', '14235', 'Ganjil', 99, 0, 100, 0, ''),
+(2, 'Ani', 'Kelas 4', 'Bahasa Indonesia', '553', '', 0, 0, 0, 0, ''),
+(3, 'wisnu', 'Kelas 6', '-', '77', '-', 0, 0, 0, 0, ''),
+(4, 'Ana', '', 'Bahasa Inggris', '14235', 'Genap', 88, 66, 88, 0, ''),
+(5, 'Ana', '', '', '14235', 'Genap', 66, 66, 66, 0, '');
 
 -- --------------------------------------------------------
 
@@ -101,13 +135,61 @@ CREATE TABLE `nilai` (
 CREATE TABLE `siswa` (
   `idSiswa` int(12) NOT NULL,
   `namaSiswa` varchar(50) NOT NULL,
-  `jkSiswa` varchar(10) NOT NULL,
+  `jkSiswa` enum('L','P') NOT NULL,
   `tgLahir` date NOT NULL,
   `kelasSiswa` varchar(11) NOT NULL,
   `namaIbu` varchar(30) NOT NULL,
   `nikSiswa` varchar(50) NOT NULL,
-  `nisn` varchar(20) DEFAULT NULL
+  `nisn` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`idSiswa`, `namaSiswa`, `jkSiswa`, `tgLahir`, `kelasSiswa`, `namaIbu`, `nikSiswa`, `nisn`) VALUES
+(201, 'Ani', 'P', '2023-10-09', 'Kelas 4', 'wasmi', '555', '553'),
+(202, 'Ana', 'L', '2002-11-08', 'Kelas 5', 'darsem', '2342', '14235'),
+(203, 'wisnu', 'L', '2287-04-22', 'Kelas 6', 'iem', '77', '77');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `test`
+--
+
+CREATE TABLE `test` (
+  `namaSiswa` varchar(50) NOT NULL,
+  `nisn` int(11) NOT NULL,
+  `mapel` varchar(20) NOT NULL,
+  `tugas` int(11) NOT NULL,
+  `uas` int(11) NOT NULL,
+  `uts` int(11) NOT NULL,
+  `semester` varchar(20) NOT NULL,
+  `tahun_ajaran` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id_user` int(11) NOT NULL,
+  `nama_user` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `pass` varchar(20) NOT NULL,
+  `sebagai` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id_user`, `nama_user`, `email`, `pass`, `sebagai`) VALUES
+(1, 'denny', 'ya@gmail.com', '123', 'Admin'),
+(2, 'firman', 'admin@gmail.com', '123', 'Admin');
 
 --
 -- Indexes for dumped tables
@@ -129,8 +211,7 @@ ALTER TABLE `kelas`
 -- Indexes for table `nilai`
 --
 ALTER TABLE `nilai`
-  ADD PRIMARY KEY (`idNilai`),
-  ADD KEY `fk_siswa_idSiswa` (`idSiswa`);
+  ADD PRIMARY KEY (`idNilai`);
 
 --
 -- Indexes for table `siswa`
@@ -138,7 +219,14 @@ ALTER TABLE `nilai`
 ALTER TABLE `siswa`
   ADD PRIMARY KEY (`idSiswa`),
   ADD UNIQUE KEY `nisn` (`nisn`),
-  ADD UNIQUE KEY `nik` (`nikSiswa`);
+  ADD UNIQUE KEY `nik` (`nikSiswa`),
+  ADD UNIQUE KEY `nikSiswa` (`nikSiswa`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -148,30 +236,25 @@ ALTER TABLE `siswa`
 -- AUTO_INCREMENT for table `kelas`
 --
 ALTER TABLE `kelas`
-  MODIFY `idKelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idKelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `nilai`
 --
 ALTER TABLE `nilai`
-  MODIFY `idNilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idNilai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `idSiswa` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `idSiswa` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
 
 --
--- Constraints for dumped tables
+-- AUTO_INCREMENT for table `user`
 --
-
---
--- Constraints for table `nilai`
---
-ALTER TABLE `nilai`
-  ADD CONSTRAINT `fk_siswa` FOREIGN KEY (`idSiswa`) REFERENCES `siswa` (`idSiswa`),
-  ADD CONSTRAINT `fk_siswa_idSiswa` FOREIGN KEY (`idSiswa`) REFERENCES `siswa` (`idSiswa`);
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

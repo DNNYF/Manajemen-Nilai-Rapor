@@ -1,5 +1,6 @@
 <?php
 require "proses_crud.php";
+require "../connection/session.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">

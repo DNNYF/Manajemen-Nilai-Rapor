@@ -10,5 +10,4 @@ if (!$koneksi) {
 }
 mysqli_select_db($koneksi,$db);
 
-
 ?>
