@@ -31,15 +31,38 @@ if ($op == 'edit') {
 }
 
 if ($op == 'delete') {
-    $idSiswa         = $_GET['idSiswa'];
-    $sql1       = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
-    $q1         = mysqli_query($koneksi, $sql1);
-    if ($q1) {
-        $sukses = "Berhasil hapus data";
+    $idSiswa = $_GET['idSiswa'];
+
+    // Mengambil NISN sebelum menghapus data siswa
+    $sql2 = "SELECT nisn FROM siswa WHERE idSiswa = '$idSiswa'";
+    $q2 = mysqli_query($koneksi, $sql2);
+
+    if (mysqli_num_rows($q2) > 0) {
+        $r2 = mysqli_fetch_assoc($q2);
+        $nisn = $r2['nisn'];
+
+        // Menghapus data siswa
+        $sql1 = "DELETE FROM siswa WHERE idSiswa = '$idSiswa'";
+        $q1 = mysqli_query($koneksi, $sql1);
+
+        if ($q1) {
+            // Menghapus data nilai yang memiliki NISN yang sesuai
+            $sql3 = "DELETE FROM nilai WHERE nisn = '$nisn'";
+            $q3 = mysqli_query($koneksi, $sql3);
+
+            if ($q3) {
+                $sukses = "Berhasil hapus data siswa dan data nilai";
+            } else {
+                $error = "Gagal hapus data nilai";
+            }
+        } else {
+            $error = "Gagal hapus data siswa";
+        }
     } else {
-        $error  = "Gagal melakukan delete data";
+        $error = "Data siswa tidak ditemukan";
     }
 }
+
 
 $sqlkelas   = "SELECT kelas FROM kelas";
 $qKelas     = mysqli_query($koneksi, $sqlkelas); //queryKelas
@@ -104,27 +127,42 @@ if (isset($_POST['simpan'])) {
 
     //mengirim variable ke database
     if ($namaSiswa && $jkSiswa && $tgLahir && $kelasSiswa && $nikSiswa && $nisn) {
-        $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$kelasSiswa', '$namaIbu', '$nikSiswa', '$nisn')";
-        $sqlInsertNilai = "INSERT INTO nilai (nisn, semester, tugas, uts, uas) VALUES ('$nisn', '0', '0', '0', '0')";
+        $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu, nikSiswa, nisn) 
+                 VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$kelasSiswa', '$namaIbu', '$nikSiswa', '$nisn')";
         try {
             $q1 = mysqli_query($koneksi, $sql1);
-            $q2 = mysqli_query($koneksi, $sqlInsertNilai);
-            
-            if ($q1 && $q2) {
+    
+            if ($q1) {
                 $sukses = "Berhasil memasukkan data baru";
+    
+                $sql_nilai = "SELECT * FROM mapel";
+                $query_nilai = mysqli_query($koneksi, $sql_nilai);
+    
+                while ($row_nilai = mysqli_fetch_assoc($query_nilai)) {
+                    $mapel = $row_nilai['mapel'];
+                    $sqlInsertNilai = "INSERT INTO nilai (namaSiswa, nisn, semester, mapel, kelasSiswa, tugas, uts, uas) 
+                                       VALUES ('$namaSiswa', '$nisn', '-', '$mapel', '$kelasSiswa', '0', '0', '0')";
+    
+                    $q2 = mysqli_query($koneksi, $sqlInsertNilai);
+    
+                    if (!$q2) {
+                        $error = "Gagal Menambahkan Data Nilai";
+                        break;
+                    }
+                }
             } else {
-                $error = "Gagal Menambahkan Data";
+                $error = "Gagal Menambahkan Data Siswa";
             }
         } catch (mysqli_sql_exception $e) {
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                $error = "Gagal Menambahkan data";
+                $error = "Gagal Menambahkan Data, Data Duplikat";
             } else {
                 $error = $e->getMessage();
             }
         }
-    } else {
+    }
+    
+    else {
         $error = "Silahkan masukan Data";
     }
 }
-
-?>

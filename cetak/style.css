@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#live-preview-body {
+    margin: 20px;
+}
+
+#watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 72px;
+    color: lightgray;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+#kop-surat-1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#img-kiri,
+#img-kanan {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.desc-kop-surat {
+    padding: 5px;
+}
+
+#garis-bawah-kop {
+    margin-top: 20px;
+}
+
+.table-anak,
+.table-nilai,
+.table-ekskul,
+.table-absensi,
+.table-catatan,
+.table-signature {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.table-anak{
+    border: none;
+}
+
+
+.table-nilai th,
+.table-nilai td,
+.table-ekskul th,
+.table-ekskul td,
+.table-absensi th,
+.table-absensi td,
+.table-catatan td,
+.table-signature td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.table-anak th {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.table-absensi td {
+    width: 50%;
+}
+
+.table-catatan .catatan {
+    padding: 10px;
+}
+
+.table-signature td {
+    text-align: center;
+    vertical-align: bottom;
+    border: none;
+}
+
+.table-signature u {
+    text-decoration: underline;
+}
+
+.table-signature br {
+    line-height: 10px;
+}
+
+.wraper {
+    width: 80%;
+    margin-left: 10%;
+    border: 2px solid;
+}

@@ -15,9 +15,6 @@ require "../connection/session.php";
     <script src="search.js"></script>
     <link rel="stylesheet" href="style.css">
     <title>CRUD</title>
-
-
-    <title>CRUD</title>
 </head>
 
 <body>
@@ -152,15 +149,16 @@ require "../connection/session.php";
                             <th scope="col">NISN</th>
                             <th scope="col">AKSI</th>
                         </tr>
+                    </thead>
                     <tbody class="table-position">
                         <?php
                         require_once "tabel_siswa.php";
                         ?>
                     </tbody>
-                    </thead>
                 </table>
             </div>
         </div>
+    </div>
 </body>
 
 </html>

@@ -34,7 +34,7 @@ function importfile()
             $sheetAktif = $spreadsheet->getActiveSheet();
             $data_siswa = $sheetAktif->toArray();
 
-            $isError = false; // Variabel flag untuk menandai adanya kesalahan
+            $isError = false;
 
             foreach ($data_siswa as $row => $tiap_siswa) {
                 if ($row >= 7) {
@@ -42,19 +42,47 @@ function importfile()
                     $nisn = $tiap_siswa[1];
                     $namaSiswa = $tiap_siswa[2];
                     $jkSiswa = $tiap_siswa[3];
-                    $tglLahir = DateTime::createFromFormat('d/m/Y', $tiap_siswa[4])->format('Y-m-d');
+                    $tgLahir = DateTime::createFromFormat('d/m/Y', $tiap_siswa[4])->format('Y-m-d');
                     $kelasSiswa = $tiap_siswa[5];
                     $namaIbu = $tiap_siswa[6];
 
                     // Query SQL untuk memasukkan data ke dalam tabel siswa
-                    $sql = "INSERT INTO siswa (nikSiswa, nisn, namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu) VALUES ('$nikSiswa', '$nisn', '$namaSiswa', '$jkSiswa', '$tglLahir', '$kelasSiswa', '$namaIbu')";
-                    $sqlInsertNilai = "INSERT INTO nilai (nisn, semester, tugas, uts, uas) VALUES ('$nisn', '0', '0', '0', '0')";
+                    $sql1 = "INSERT INTO siswa (namaSiswa, jkSiswa, tgLahir, kelasSiswa, namaIbu, nikSiswa, nisn) 
+                 VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$kelasSiswa', '$namaIbu', '$nikSiswa', '$nisn')";
                     try {
-                        $q1 = mysqli_query($koneksi, $sql);
-                        $q2 = mysqli_query($koneksi, $sqlInsertNilai);
+                        $q1 = mysqli_query($koneksi, $sql1);
+
+                        if ($q1) {
+                            $sukses = "Berhasil memasukkan data baru";
+
+                            $sql_nilai = "SELECT * FROM mapel";
+                            $query_nilai = mysqli_query($koneksi, $sql_nilai);
+
+                            while ($row_nilai = mysqli_fetch_assoc($query_nilai)) {
+                                $mapel = $row_nilai['mapel'];
+                                $sqlInsertNilai = "INSERT INTO nilai (namaSiswa, nisn, semester, mapel, kelasSiswa, tugas, uts, uas) 
+                                       VALUES ('$namaSiswa', '$nisn', '-', '$mapel', '$kelasSiswa', '0', '0', '0')";
+
+                                $q2 = mysqli_query($koneksi, $sqlInsertNilai);
+
+                                if (!$q2) {
+                                    $isError = true;
+                                    $error = "Gagal Menambahkan Data Nilai";
+                                    break;
+                                }
+                            }
+                        } else {
+                            $isError = true;
+                            $error = "Gagal Menambahkan Data Siswa";
+                        }
                     } catch (mysqli_sql_exception $e) {
-                        $isError = true; // Mengatur variabel flag menjadi true jika terjadi kesalahan
-                        break;
+                        if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                            $isError = true;
+                            $error = "Gagal Menambahkan Data, Data Duplikat";
+                        } else {
+                            $isError = true;
+                            $error = $e->getMessage();
+                        }
                     }
                 }
             }

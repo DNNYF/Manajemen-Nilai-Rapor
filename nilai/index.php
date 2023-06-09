@@ -1,5 +1,6 @@
 <?php
 require "../connection/koneksi.php";
+$catatan = "";
 require "proses.php";
 
 $sqlkelas = "SELECT kelas FROM kelas";
@@ -59,60 +60,60 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                     <div class="mb-3 row">
                         <label for="nisn" class="col-sm-2 col-form-label">NISN *</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="NISN" name="nisn" value="<?php echo $nisn ?>" >
+                            <input type="text" class="form-control" placeholder="NISN" name="nisn" value="<?php echo $nisn ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="semester" class="col-sm-2 col-form-label" require>Semester *</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="semester">
-                                <option value="">- Semester -</option>
+                                <option value="" hidden></option>
                                 <option value="Ganjil">Ganjil</option>
                                 <option value="Genap">Genap</option>
                             </select>
                         </div>
                     </div>
-                    <div class="mb-3 row">
-                        <label for="mapel" class="col-sm-2 col-form-label" require>Mata Pelajaran *</label>
-                        <div class="col-sm-10">
-                            <?php
-                            $query_mapel = "SELECT mapel FROM mapel";
-                            $result_mapel = $koneksi->query($query_mapel);
-                            if ($result_mapel->num_rows > 0) {
-                                echo '<select class="form-control" name="mapel">';
-                                while ($row_mapel = $result_mapel->fetch_assoc()) {
-                                    $mapel = $row_mapel["mapel"];
-                                    echo '<option value="' . $mapel . '">' . $mapel . '</option>';
-                                }
-                                echo '</select>';
-                            }
-                            ?>
-                        </div>
-                    </div>
 
                     <div class="mb-3 row">
-                        <label for="tugas" class="col-sm-2 col-form-label">TUGAS </label>
+                        <label for="tugas" class="col-sm-2 col-form-label">TUGAS</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="tugas" value="<?php echo $tugas ?>" max="100" min="0">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="uts" class="col-sm-2 col-form-label">UTS </label>
+                        <label for="uts" class="col-sm-2 col-form-label">UTS</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="uts" value="<?php echo $uts ?>" max="100" min="0">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="uas" class="col-sm-2 col-form-label">UAS </label>
+                        <label for="uas" class="col-sm-2 col-form-label">UAS</label>
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="uas" value="<?php echo $uas ?>" max="100" min="0">
                         </div>
                     </div>
-                    <div class="button col-12">
-                        <input type="submit" name="<?php echo $button ?>" value="Ubah Data" class="btn btn-primary">
-                        <input type="submit" name="add" class="btn btn-outline-success">
-                        </input>
+                    <div class="mb-3 row">
+                        <?php
+                        // $tugas = isset($tugas) ? $tugas : 0;
+                        // $uts = isset($uts) ? $uts : 0;
+                        // $uas = isset($uas) ? $uas : 0;
+                        // $n_nilai = array($tugas, $uts, $uas);
+                        // $jml_nilai = count($n_nilai);
+                        // $sum_nilai = array_sum($n_nilai);
+                        // $nilaiAkhir = $jml_nilai > 0 ? $sum_nilai / $jml_nilai : 0;
+                        // $nilaiAkhirFormatted = number_format($nilaiAkhir, 1, '.', '');
+                        ?>
+
+                        <label for="catatan" class="col-sm-2 col-form-label">CATATAN</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="catatan" value="<?php echo $catatan ?>">
+                        </div>
                     </div>
+                    <div class="button col-12 text-end">
+                        <input type="submit" name="edit" value="Simpan" class="btn btn-success">
+                    </div>
+
+
                 </form>
             </div>
         </div>
@@ -155,7 +156,7 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                 </form>
                 <table class="table table-bordered table-hover table-striped" id="myTable">
                     <thead>
-                        <tr class="thead">
+                        <tr class="thead txt-center">
                             <th scope="col">#</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">NISN</th>
@@ -179,11 +180,11 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                         if (isset($_POST['sortMapel']) && $_POST['sortMapel'] != '') {
                             $mapel = $_POST['sortMapel'];
                             $sql .= " AND mapel = '$mapel'"; // Menggunakan .= untuk menggabungkan kondisi ke dalam query yang ada
-                        }else{
-                            $sql .= " GROUP BY namaSiswa"; 
                         }
 
+                        $sql .= " GROUP BY namaSiswa";
                         $sql .= " ORDER BY namaSiswa ASC";
+
 
                         $q2 = mysqli_query($koneksi, $sql);
                         $urut = 1;
@@ -196,6 +197,11 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                             $tugas = $r2['tugas'];
                             $uts = $r2['uts'];
                             $uas = $r2['uas'];
+                            // $nilaiAkhir = $r2['nilaiAkhir'];
+                            $n_nilai = array($tugas, $uts, $uas);
+                            $jml_nilai = count($n_nilai);
+                            $sum_nilai = array_sum($n_nilai);
+                            $nilaiAkhir = $jml_nilai > 0 ? $sum_nilai / $jml_nilai : 0;
                         ?>
 
                             <tr>
@@ -208,7 +214,9 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                                 <td scope="row"><?php echo $uts ?></td>
                                 <td scope="row"><?php echo $uas ?></td>
                                 <td scope="row">
-                                    <a href="index.php?op=edit&idNilai=<?php echo $idNilai ?>"><button type="button" class="btn btn-warning" name="edit">Edit</button></a>
+                                    <a href="../cetak/sample.php?op=cetak&nisn=<?php echo $nisn ?>" class="btn btn-info btn-sm" target="_blank">lihat</a>
+                                    <a href="../cetak/tc.php?op=cetak&nisn=<?php echo $nisn ?>" class="btn btn-success btn-sm">Cetak</a>
+                                    <a href="index.php?op=edit&idNilai=<?php echo $idNilai ?>"><button type="button" class="btn btn-warning btn-sm" name="edit">Edit</button></a>
                                 </td>
                             </tr>
                         <?php } ?>
