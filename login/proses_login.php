@@ -10,7 +10,7 @@
                 $_SESSION['sebagai'] = $data['sebagai'];
                 if($_SESSION['sebagai'] == "Admin"){
                     header("location:../siswa/crudSiswa.php");
-                    }elseif($_SESSION['sebagai'] == "user"){
+                    }elseif($_SESSION['sebagai'] == "Guru"){
                         header("location:../user/index.php");
                         };
             }else{
