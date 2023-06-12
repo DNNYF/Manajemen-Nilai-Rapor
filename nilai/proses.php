@@ -82,12 +82,12 @@ if ($op == 'edit') {
         $tugas = mysqli_real_escape_string($koneksi, $_POST['tugas']);
         $uts = mysqli_real_escape_string($koneksi, $_POST['uts']);
         $uas = mysqli_real_escape_string($koneksi, $_POST['uas']);
-        // $nilaiAkhirFormatted = mysqli_real_escape_string($koneksi, $_POST['nilaiAkhir']);
+        $nilaiAkhirFormatted = mysqli_real_escape_string($koneksi, $_POST['nilaiAkhir']);
         $catatan = mysqli_real_escape_string($koneksi, $_POST['catatan']);
     
         // Mengirim data ke database
         if ($namaSiswa && $nisn && $semester) {
-            $sql1 = "UPDATE nilai SET namaSiswa = '$namaSiswa', semester = '$semester', tugas = '$tugas', uts = '$uts', uas = '$uas', catatan = '$catatan' WHERE idNilai = '$idNilai'";
+            $sql1 = "UPDATE nilai SET namaSiswa = '$namaSiswa', semester = '$semester', tugas = '$tugas', uts = '$uts', uas = '$uas', catatan = '$catatan', nilaiAkhir = '$nilaiAkhirFormatted' WHERE idNilai = '$idNilai'";
             try {
                 $q1 = mysqli_query($koneksi, $sql1);
                 if ($q1) {

@@ -9,9 +9,9 @@
                 $_SESSION['logged_in'] = true ;
                 $_SESSION['sebagai'] = $data['sebagai'];
                 if($_SESSION['sebagai'] == "Admin"){
-                    header("location:../siswa/crudSiswa.php");
+                    header("location:../dashboard/");
                     }elseif($_SESSION['sebagai'] == "Guru"){
-                        header("location:../user/index.php");
+                        header("location:../dashboard/");
                         };
             }else{
                 echo "<script>alert('Email atau Password Anda Salah')</script>";

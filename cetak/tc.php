@@ -283,7 +283,7 @@ ob_start();
                     <td style="width:40%">
                     </td>
                     <td style="width:30%">
-                        Indramayu, 11 Juni 2023<br>Wali Kelas,
+                        Indramayu, 13 Juni 2023<br>Wali Kelas,
                     </td>
                 </tr>
                 <tr>

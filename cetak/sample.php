@@ -1,5 +1,8 @@
 <?php
-require_once "../connection/koneksi.php";
+
+require "../connection/koneksi.php";
+require "../connection/session.php";
+
 
 if (isset($_GET['op'])) {
     $op = $_GET['op'];
@@ -44,12 +47,12 @@ if ($result) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
         }
+
         #watermark {
             position: fixed;
             top: 50%;
@@ -138,14 +141,12 @@ if ($result) {
             line-height: 10px;
         }
 
-        .wrapper{
+        .wrapper {
             border: 0.5px solid;
             width: 80%;
             margin-left: 10%;
             margin-right: 10%;
         }
-
-        
     </style>
 </head>
 
@@ -185,12 +186,11 @@ if ($result) {
                         </tr>
                         <tr>
                             <td class="desc-kop-surat" id="desc-kop-surat-4" style=" font-size:  12px; color:#000000;">
-                                email: </td>
+                                email : uptdsdn1terusan@gmail.com </td>
                         </tr>
                         <tr>
                             <td class="desc-kop-surat" id="desc-kop-surat-5" style=" font-size:  12px; color:#000000;">
-                                Jl.
-                                Anthony Murad Kampung Panca Tunggal Jaya Kecamatan Penawar Aji Kabupaten Tulang Bawang
+                            Alamat : Jl. Terusan, Terusan, Kec. Sindang, Kabupaten Indramayu, Jawa Barat 45224
                             </td>
                         </tr>
                         <tr>
@@ -294,7 +294,7 @@ if ($result) {
                     <td style="width:40%">
                     </td>
                     <td style="width:30%">
-                        Indramayu, 11 Juni 2023<br>Wali Kelas,
+                        Indramayu, 13 Juni 2023<br>Wali Kelas,
                     </td>
                 </tr>
                 <tr>

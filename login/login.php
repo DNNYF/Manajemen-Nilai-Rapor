@@ -2,9 +2,9 @@
 	include '../connection/koneksi.php';
 	session_start();
 	require_once 'proses_login.php';
-	if(isset($_SESSION['logged_in']) == true){
-		header("Location :  ");
-	}
+	// if(isset($_SESSION['logged_in']) == true){
+	// 	header("Location :  ../nilai/index.php");
+	// }
 ?>
 
 <!DOCTYPE html>

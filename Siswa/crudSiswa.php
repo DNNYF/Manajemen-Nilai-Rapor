@@ -1,6 +1,6 @@
 <?php
 require "proses_crud.php";
-require "../connection/session.php";
+// require "../connection/session.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +18,13 @@ require "../connection/session.php";
 </head>
 
 <body>
+    <div class="container-fluid page-body-wrapper">
     <div class="mx-auto">
         <div class="card">
             <!-- memasukan data siswa -->
             <div class="card-header">
                 <div class="title">
-                    <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
+                    <a href="../dashboard/" class="back btn btn-warning btn-sm"> Back </a>
                 </div>
                 <div class="">
                     <h4 class="">CREATE / EDIT DATA</h4>

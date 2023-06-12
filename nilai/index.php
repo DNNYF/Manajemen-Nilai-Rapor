@@ -1,7 +1,10 @@
 <?php
+
 require "../connection/koneksi.php";
 $catatan = "";
 require "proses.php";
+require "../connection/session.php";
+
 
 $sqlkelas = "SELECT kelas FROM kelas";
 $qKelas = mysqli_query($koneksi, $sqlkelas); //queryKelas
@@ -94,17 +97,23 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                     </div>
                     <div class="mb-3 row">
                         <?php
-                        // $tugas = isset($tugas) ? $tugas : 0;
-                        // $uts = isset($uts) ? $uts : 0;
-                        // $uas = isset($uas) ? $uas : 0;
-                        // $n_nilai = array($tugas, $uts, $uas);
-                        // $jml_nilai = count($n_nilai);
-                        // $sum_nilai = array_sum($n_nilai);
-                        // $nilaiAkhir = $jml_nilai > 0 ? $sum_nilai / $jml_nilai : 0;
-                        // $nilaiAkhirFormatted = number_format($nilaiAkhir, 1, '.', '');
+                        $tugas = isset($tugas) ? $tugas : 0;
+                        $uts = isset($uts) ? $uts : 0;
+                        $uas = isset($uas) ? $uas : 0;
+                        $n_nilai = array($tugas, $uts, $uas);
+                        $jml_nilai = count($n_nilai);
+                        $sum_nilai = array_sum($n_nilai);
+                        $nilaiAkhir = $jml_nilai > 0 ? $sum_nilai / $jml_nilai : 0;
+                        $nilaiAkhirFormatted = number_format($nilaiAkhir, 1, '.', '');
                         ?>
 
-                        <label for="catatan" class="col-sm-2 col-form-label">CATATAN</label>
+                        <label for="nilaiAkh    ir" class="col-sm-2 col-form-label">nilaiAkhir</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="nilaiAkhir" value="<?php echo $nilaiAkhirFormatted ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                    <label for="catatan" class="col-sm-2 col-form-label">CATATAN</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="catatan" value="<?php echo $catatan ?>">
                         </div>

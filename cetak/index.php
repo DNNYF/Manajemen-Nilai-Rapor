@@ -1,5 +1,8 @@
 <?php
+session_start();
 require "../connection/koneksi.php";
+require "../connection/session.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
