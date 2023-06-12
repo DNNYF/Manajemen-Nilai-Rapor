@@ -1,85 +1,7 @@
 <?php
-$host       = "localhost";
-$user       = "root";
-$pass       = "";
-$db         = "erapor";
-
-$koneksi    = mysqli_connect($host, $user, $pass, $db); //menghubungkan database
-if (!$koneksi) {
-    die("Tidak dapat terkoneksi ke database");
-}
-// deklarasi varible data siswa
-$nikSiswa   = "";
-$nisn       = "";
-$namaSiswa  = "";
-$jkSiswa    = "";
-$tgLahir    = "";
-$namaIbu    = "";
-$error      = "";
-$sukses     = "";
-$op         = "";
-
-$idSiswa = "";
-if (isset($_GET['idSiswa'])) {
-    $idSiswa = $_GET['idSiswa'];
-}
-
-if (isset($_GET['op'], $idSiswa) && $_GET['op'] == 'edit') {
-    $sql = "SELECT * FROM siswa WHERE idSiswa = ?";
-    $stmt = mysqli_prepare($koneksi, $sql);
-    mysqli_stmt_bind_param($stmt, 'i', $idSiswa);
-    mysqli_stmt_execute($stmt);
-    $r1 = mysqli_stmt_get_result($stmt);
-    if (mysqli_num_rows($r1) > 0) {
-        $siswa = mysqli_fetch_assoc($r1);
-        $nisn = $siswa['nisn'];
-        $namaSiswa = $siswa['namaSiswa'];
-        $jkSiswa = $siswa['jkSiswa'];
-        $tgLahir = $siswa['tgLahir'];
-        $namaIbu = $siswa['namaIbu'];
-        $nikSiswa = $siswa['nikSiswa'];
-    } else {
-        $error = "Data Tidak Ditemukan";
-    }
-}
-
-    
-
-//untuk menangkap nilai yang di inputkan
-// input dari elemen name="nisn" dimasukan ke variable $nisn
-if (isset($_POST['simpan'])) {
-    $nikSiswa   = mysqli_real_escape_string($koneksi, $_POST['nikSiswa']);
-    $nisn       = mysqli_real_escape_string($koneksi, $_POST['nisn']);
-    $namaSiswa  = mysqli_real_escape_string($koneksi, $_POST['namaSiswa']);
-    $jkSiswa    = mysqli_real_escape_string($koneksi, $_POST['jkSiswa']);
-    $tgLahir    = mysqli_real_escape_string($koneksi, $_POST['tgLahir']);
-    $namaIbu    = mysqli_real_escape_string($koneksi, $_POST['namaIbu']);
-
-    //mengirim variable ke database
-    if ($namaSiswa && $jkSiswa && $tgLahir && $namaIbu && $nikSiswa && $nisn) {
-        $sql1 = "INSERT INTO siswa (nama, jkSiswa, tglahir, data_ibu, nikSiswa, nisn) VALUES ('$namaSiswa', '$jkSiswa', '$tgLahir', '$namaIbu', '$nikSiswa', '$nisn')";
-        try {
-            $q1 = mysqli_query($koneksi, $sql1);
-            if ($q1) {
-                $sukses = "Berhasil memasukan data baru";
-            } else {
-                $error = "Gagal Menambahkan Data";
-            }
-        } catch (mysqli_sql_exception $e) {
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                $error = "Gagal Menambahkan data";
-            } else {
-                $error = $e->getMessage();
-            }
-        }
-    } else {
-        $error = "Silahkan masukan Data";
-    }
-}
-
+require "proses_crud.php";
+// require "../connection/session.php";
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,72 +10,61 @@ if (isset($_POST['simpan'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <style>
-        .mx-auto {
-            width: 900px;
-        }
-
-        .card {
-            margin-top: 10px;
-        }
-
-        .head {
-            text-align: center;
-            vertical-align: middle;
-            ;
-        }
-
-        .table-position {
-            vertical-align: middle;
-            ;
-            text-align: center;
-        }
-
-        .data {
-            width: 90%;
-        }
-    </style>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="search.js"></script>
+    <link rel="stylesheet" href="style.css">
     <title>CRUD</title>
 </head>
 
 <body>
+    <div class="container-fluid page-body-wrapper">
     <div class="mx-auto">
         <div class="card">
             <!-- memasukan data siswa -->
-            <h5 class="card-header">Create/Edit Data</h5>
+            <div class="card-header">
+                <div class="title">
+                    <a href="../dashboard/" class="back btn btn-warning btn-sm"> Back </a>
+                </div>
+                <div class="">
+                    <h4 class="">CREATE / EDIT DATA</h4>
+                </div>
+            </div>
             <!-- menampilkan berhasil atau gagal menambahkan data -->
             <?php
             if ($error) {
                 echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
-            }
+                header("refresh:2;url=crudSiswa.php"); //2 : detik
+            };
+            ?>
+            <?php
             if ($sukses) {
                 echo '<div class="alert alert-success" role="alert">' . $sukses . '</div>';
-            }
+                header("refresh:2;url=crudSiswa.php"); //2 : detik
+            };
             ?>
             <div class="card-body">
                 <form action="" method="POST">
                     <div class="mb-3 row">
-                        <label for="nikSiswa" class="col-sm-2 col-form-label">NIK</label>
+                        <label for="nikSiswa" class="col-sm-2 col-form-label">NIK *</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="NIK" name="nikSiswa" value="<?php echo $nikSiswa ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="nisn" class="col-sm-2 col-form-label">NISN</label>
+                        <label for="nisn" class="col-sm-2 col-form-label">NISN *</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="NISN" name="nisn" value="<?php echo $nisn ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="namaSiswa" class="col-sm-2 col-form-label">Nama</label>
+                        <label for="namaSiswa" class="col-sm-2 col-form-label">Nama *</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="Nama" name="namaSiswa" value="<?php echo $namaSiswa ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="jkSiswa" class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                        <label for="jkSiswa" class="col-sm-2 col-form-label">Jenis Kelamin *</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="jkSiswa">
                                 <option value="">- Jenis kelamin -</option>
@@ -164,80 +75,91 @@ if (isset($_POST['simpan'])) {
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="tgLahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                        <label for="tgLahir" class="col-sm-2 col-form-label">Tanggal Lahir *</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" name="tgLahir">
+                            <input type="date" class="form-control" name="tgLahir" value="<?php echo $tgLahir ?>">
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="dataIbu" class="col-sm-2 col-form-label">Nama Ibu </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="namaIbu" placeholder="Data Ibu" value="<?php echo $namaIbu ?>">
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="dataIbu" class="col-sm-2 col-form-label">Data Ibu</label>
+                        <label for="kelasSiswa" class="col-sm-2 col-form-label">Kelas *</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="namaIbu" placeholder="Data Ibu">
+                            <select class="form-control" name="kelasSiswa">
+                                <option value="">- Kelas -</option>
+                                <?php
+                                while ($rowKelas = mysqli_fetch_array($qKelas)) {
+                                    $nokel++;
+                                    $kelas = $rowKelas['kelas'];
+                                ?>
+                                    <option><?php echo $kelas ?></option>
+                                <?php
+                                }
+                                ?>
+
+                            </select>
                         </div>
                     </div>
                     <div class="button col-12">
-                        <input type="submit" name="simpan" value="Simpan Data" class="btn btn-primary">
+                        <a href="import.php" class="btn btn-outline-success">
+                            <img class="icon-exel" style="width: 15px; height: 15px;" src="../assets/img/exel.png" alt=""> Exel
+                        </a>
+                        <input type="submit" name="<?php echo $button ?>" value="Simpan Data" class="btn btn-primary">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    </div>
     <!-- menampilkan data siswa -->
     <div class="data mx-auto">
         <div class="card">
-            <h5 class="card-header  text-white bg-primary">Data Siswa</h5>
+            <h5 class="card-header text-white bg-primary">Data Siswa</h5>
             <div class="card-body">
-                <table class="table table-bordered table-hover">
+                <form method="POST">
+                    <div class="data-head">
+                        <div class="sort">
+                            <select class="sort-kelas form-control" name="sortKelas">
+                                <option value="noKelas">-kelas-</option>
+                                <?php foreach ($qKelas as $rowKelas) { ?>
+                                    <option value="<?php echo $rowKelas['kelas']; ?>"><?php echo $rowKelas['kelas']; ?></option>
+                                <?php } ?>
+                            </select>
+                            <button class="btn btn-outline-primary" type="submit" name="sort">Sortir</button>
+                        </div>
+
+                        <div class="search-field">
+                            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Cari Siswa" class="search form-control"> <!--search field -->
+                        </div>
+                    </div>
+                </form>
+                <table class="table table-bordered table-hover table-striped" id="myTable">
                     <thead>
-                        <tr class="head">
+                        <tr class="thead">
                             <th scope="col">#</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">JENIS KELAMIN</th>
                             <th scope="col">TANGGAL LAHIR</th>
+                            <th scope="col">KELAS</th>
                             <th scope="col">DATA IBU</th>
                             <th scope="col">NIK</th>
                             <th scope="col">NISN</th>
                             <th scope="col">AKSI</th>
                         </tr>
+                    </thead>
                     <tbody class="table-position">
                         <?php
-                        $sql2   = "SELECT * FROM siswa order by idSiswa asc";
-                        $q2     = mysqli_query($koneksi, $sql2);
-                        $urut   = 1;
-                        while ($r2 = mysqli_fetch_array($q2)) {
-                            $idSiswa    = $r2['idSiswa'];
-                            $namaSiswa  = $r2['namaSiswa'];
-                            $jkSiswa    = $r2['jkSiswa'];
-                            $tgLahir    = $r2['tgLahir'];
-                            $namaIbu    = $r2['namaIbu'];
-                            $nikSiswa   = $r2['nikSiswa'];
-                            $nisn       = $r2['nisn'];
-                        ?>
-
-                            <tr>
-                                <th scope="row"><?php echo $urut++ ?></th>
-                                <td scope="row"><?php echo $namaSiswa ?></td>
-                                <td scope="row" class="jk"><?php echo $jkSiswa ?></td>
-                                <td scope="row"><?php echo $tgLahir ?></td>
-                                <td scope="row"><?php echo $namaIbu ?></td>
-                                <td scope="row"><?php echo $nikSiswa ?></td>
-                                <td scope="row"><?php echo $nisn ?></td>
-                                <td scope="row">
-                                    <a href="crudSiswa.php?op=edit&id=<?php echo $idSiswa ?>"><button type="button" class="btn btn-warning">Edit</button></a>
-                                    <a href="crudSiswa.php?op=edit&id=<?php echo $idSiswa ?>"><button type="button" class="btn btn-danger">Delete</button></a>
-                                </td>
-
-                            </tr>
-
-                        <?php
-                        }
+                        require_once "tabel_siswa.php";
                         ?>
                     </tbody>
-                    </thead>
                 </table>
             </div>
         </div>
+    </div>
 </body>
 
 </html>
