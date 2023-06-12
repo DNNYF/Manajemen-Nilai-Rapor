@@ -105,10 +105,10 @@ require "../connection/session.php";
                         </div>
                     </div>
                     <div class="button col-12">
-                            <a href="import.php" class="btn btn-outline-success">
-                                    <img class="icon-exel" style="width: 15px; height: 15px;" src="../assets/img/exel.png" alt=""> Exel
-                            </a>
-                            <input type="submit" name="<?php echo $button ?>" value="Simpan Data" class="btn btn-primary">
+                        <a href="import.php" class="btn btn-outline-success">
+                            <img class="icon-exel" style="width: 15px; height: 15px;" src="../assets/img/exel.png" alt=""> Exel
+                        </a>
+                        <input type="submit" name="<?php echo $button ?>" value="Simpan Data" class="btn btn-primary">
                     </div>
                 </form>
             </div>
