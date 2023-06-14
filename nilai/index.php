@@ -33,7 +33,7 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
             <!-- memasukan data siswa -->
             <div class="card-header">
                 <div class="title">
-                    <a href="crudSiswa.php" class="back btn btn-warning btn-sm"> Back </a>
+                    <a href="../dashboard/index.php" class="back btn btn-warning btn-sm"> Back </a>
                 </div>
                 <div class="">
                     <h4 class="">INPUT NILAI</h4>
@@ -107,9 +107,9 @@ $qSiswa = mysqli_query($koneksi, $sqlSiswa);
                         $nilaiAkhirFormatted = number_format($nilaiAkhir, 1, '.', '');
                         ?>
 
-                        <label for="nilaiAkh    ir" class="col-sm-2 col-form-label">nilaiAkhir</label>
+                        <label for="nilaiAkh    ir" class="col-sm-2 col-form-label">NILAI AKHIR</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nilaiAkhir" value="<?php echo $nilaiAkhirFormatted ?>" readonly>
+                            <input type="text" class="form-control" name="nilaiAkhir" value="<?php echo $nilaiAkhirFormatted ?>" >
                         </div>
                     </div>
                     <div class="mb-3 row">

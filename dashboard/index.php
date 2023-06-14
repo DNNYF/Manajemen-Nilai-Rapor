@@ -9,7 +9,7 @@ require "../connection/session.php";
 <html lang="en">
 
 <head>
-  <!-- Required meta tags --> 
+  <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Dashboard Admin</title>
@@ -19,7 +19,7 @@ require "../connection/session.php";
   <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
   <!-- endinject -->
   <!-- plugin css for this page -->
-  <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css"/>
+  <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css" />
   <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars-o.css">
   <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars.css">
@@ -29,6 +29,7 @@ require "../connection/session.php";
   <!-- endinject -->
   <link rel="shortcut icon" href="images/favicon.png" />
 </head>
+
 <body>
   <div class="container-scroller">
     <!-- partial:partials/_navbar.html -->
@@ -52,9 +53,9 @@ require "../connection/session.php";
           </li>
         </ul>
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown d-lg-flex d-none">
-                <a href="../login/logout.php"><button type="button" class="btn btn-info font-weight-bold">LOGOUT</button></a>
-            </li>
+          <li class="nav-item dropdown d-lg-flex d-none">
+            <a href="../login/logout.php"><button type="button" class="btn btn-info font-weight-bold">LOGOUT</button></a>
+          </li>
           </li>
           <li class="nav-item dropdown d-flex mr-4 ">
             <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
@@ -62,8 +63,8 @@ require "../connection/session.php";
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
               <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
-              <a class="dropdown-item preview-item">               
-                  <i class="icon-head"></i> Profile
+              <a class="dropdown-item preview-item">
+                <i class="icon-head"></i> Profile
               </a>
 
             </div>
@@ -88,10 +89,10 @@ require "../connection/session.php";
             <img src="images/sd.png">
           </div>
           <div class="user-name">
-              UPTD SD NEGERI 1 TERUSAN
+            UPTD SD NEGERI 1 TERUSAN
           </div>
           <div class="user-designation">
-              SINDANG, INDRAMAYU
+            SINDANG, INDRAMAYU
           </div>
         </div>
         <ul class="nav">
@@ -119,13 +120,6 @@ require "../connection/session.php";
               <span class="menu-title">Tambah Akun Guru</span>
             </a>
           </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../../../nilai/index.php">
-                <i class="icon-help menu-icon"></i>
-                <span class="menu-title">Cetak Rapor</span>
-              </a>
-            </li>
-          
         </ul>
       </nav>
       <!-- partial -->
@@ -141,247 +135,247 @@ require "../connection/session.php";
             <div class="col-xl-3 flex-column d-flex grid-margin stretch-card">
               <div class="row flex-grow">
                 <div class="col-sm-12 grid-margin stretch-card">
-                    <div class="card">
-                      <div class="card-body">
-                          <h4 class="card-title">Nilai Masuk</h4>
-                          <p>23% dari 76% nilai</p>
-                          <h4 class="text-dark font-weight-bold mb-2">43,981</h4>
-                          <canvas id="customers"></canvas>
-                      </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Nilai Masuk</h4>
+                      <p>23% dari 76% nilai</p>
+                      <h4 class="text-dark font-weight-bold mb-2">43,981</h4>
+                      <canvas id="customers"></canvas>
                     </div>
+                  </div>
                 </div>
                 <div class="col-sm-12 stretch-card">
-                    <div class="card">
-                      <div class="card-body">
-                          <h4 class="card-title">Nilai Keluar</h4>
-                          <p>6% dari 93% nilai</p>
-                          <h4 class="text-dark font-weight-bold mb-2">55,543</h4>
-                          <canvas id="orders"></canvas>
-                      </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Nilai Keluar</h4>
+                      <p>6% dari 93% nilai</p>
+                      <h4 class="text-dark font-weight-bold mb-2">55,543</h4>
+                      <canvas id="orders"></canvas>
                     </div>
-               </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-xl-9 d-flex grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                      <h4 class="card-title">Presentase Nilai Semester</h4>
-                      <div class="row">
-                        <div class="col-lg-5">
-                          <p>Rekapan Nilai Siswa</p>
-                        </div>
-                       
-                      </div>
-                      <div class="row">
-                          <div class="col-sm-12">
-                              <canvas id="web-audience-metrics-satacked" class="mt-3"></canvas>
-                          </div>
-                      </div>
-                        
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Presentase Nilai Semester</h4>
+                  <div class="row">
+                    <div class="col-lg-5">
+                      <p>Rekapan Nilai Siswa</p>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <canvas id="web-audience-metrics-satacked" class="mt-3"></canvas>
                     </div>
                   </div>
+
+                </div>
+              </div>
             </div>
           </div>
-                <div class="progress progress-md grouped mb-2">
-                          <div class="progress-bar  bg-danger" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                          <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          <div class="progress-bar  bg-primary" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                          <div class="progress-bar bg-warning" role="progressbar" style="width: 10%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          <div class="progress-bar bg-success" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                          <div class="progress-bar bg-light" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
+          <div class="progress progress-md grouped mb-2">
+            <div class="progress-bar  bg-danger" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar  bg-primary" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: 10%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-success" role="progressbar" style="width: 5%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            <div class="progress-bar bg-light" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
 
           <div class="row">
             <div class="col-xl-9 grid-margin-lg-0 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Presentase</h4>
-                    <div class="table-responsive mt-3">
-                      <table class="table table-header-bg">
-                        <thead>
-                          <tr>
-                            <th>
-                                KELAS
-                            </th>
-                            <th>
-                                KKM
-                            </th>
-                            <th>
-                                NILAI
-                            </th>
-                            <th>
-                                PRESENTASE
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <i  id="us"></i> Kelas 1 
-                            </td>
-                            <td>
-                              75
-                            </td>
-                            <td>
-                              <div class="text-success"><i class="icon-arrow-up mr-2"></i>+60%</div>
-                            </td>
-                            <td>
-                              <div class="row">
-                                <div class="col-sm-10">
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-2">
-                                  25%
+                  <h4 class="card-title">Presentase</h4>
+                  <div class="table-responsive mt-3">
+                    <table class="table table-header-bg">
+                      <thead>
+                        <tr>
+                          <th>
+                            KELAS
+                          </th>
+                          <th>
+                            KKM
+                          </th>
+                          <th>
+                            NILAI
+                          </th>
+                          <th>
+                            PRESENTASE
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <i id="us"></i> Kelas 1
+                          </td>
+                          <td>
+                            75
+                          </td>
+                          <td>
+                            <div class="text-success"><i class="icon-arrow-up mr-2"></i>+60%</div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="col-sm-10">
+                                <div class="progress">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                               </div>
-                            </td>
-                            
-                          </tr>
-                          <tr>
-                            <td>
-                              <i id="at"></i> Kelas 2
-                            </td>
-                            <td>
-                                75
-                            </td>
-                            <td>
-                              <div class="text-danger"><i class="icon-arrow-down mr-2"></i>-40%</div>
-                            </td>
-                            <td>
-                              <div class="row">
-                                <div class="col-sm-10">
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-2">
-                                  50%
-                                </div>
+                              <div class="col-sm-2">
+                                25%
                               </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <i id="fr"></i> Kelas 3
-                            </td>
-                            <td>
-                                75
-                            </td>
-                            <td>
-                              <div class="text-success"><i class="icon-arrow-up mr-2"></i>+40%</div>
-                            </td>
-                            <td>
-                              <div class="row">
-                                <div class="col-sm-10">
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-2">
-                                  10%
-                                </div>
-                                <tr>
-                                  <td>
-                                    <i  id="us"></i> Kelas 4 
-                                  </td>
-                                  <td>
-                                    75
-                                  </td>
-                                  <td>
-                                    <div class="text-success"><i class="icon-arrow-up mr-2"></i>+60%</div>
-                                  </td>
-                                  <td>
-                                    <div class="row">
-                                      <div class="col-sm-10">
-                                        <div class="progress">
-                                          <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-2">
-                                        25%
-                                      </div>
-                                    </div>
-                                  </td>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="py-1">
-                              <i  id="de"></i> Kelas 5
-                            </td>
-                            <td>
-                                75
-                            </td>
-                            <td>
-                              <div class="text-danger"><i class="icon-arrow-down mr-2"></i>-80%</div>
-                            </td>
-                            <td>
-                              <div class="row">
-                                <div class="col-sm-10">
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-2">
-                                  70%
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="pb-0">
-                              <i  id="ae"></i> Kelas 6
-                            </td>
-                            <td class="pb-0">
-                                75
-                            </td>
-                            <td class="pb-0">
-                              <div class="text-success"><i class="icon-arrow-up mr-2"></i>+80%</div>
-                            </td>
-                            <td class="pb-0">
-                              <div class="row">
-                                <div class="col-sm-10">
-                                  <div class="progress">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-2">
-                                  0%
-                                </div>
-                                
-                              </div>
-                            </td>
-                          </tr>
-                          
-                        </tbody>
-                      </table>
-                    </div>
-                </div>
-              </div>
-            </div>
-                      </div>
-                    </div>
+                            </div>
+                          </td>
 
+                        </tr>
+                        <tr>
+                          <td>
+                            <i id="at"></i> Kelas 2
+                          </td>
+                          <td>
+                            75
+                          </td>
+                          <td>
+                            <div class="text-danger"><i class="icon-arrow-down mr-2"></i>-40%</div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="col-sm-10">
+                                <div class="progress">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                50%
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <i id="fr"></i> Kelas 3
+                          </td>
+                          <td>
+                            75
+                          </td>
+                          <td>
+                            <div class="text-success"><i class="icon-arrow-up mr-2"></i>+40%</div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="col-sm-10">
+                                <div class="progress">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                10%
+                              </div>
+                        <tr>
+                          <td>
+                            <i id="us"></i> Kelas 4
+                          </td>
+                          <td>
+                            75
+                          </td>
+                          <td>
+                            <div class="text-success"><i class="icon-arrow-up mr-2"></i>+60%</div>
+                          </td>
+                          <td>
+                            <div class="row">
+                              <div class="col-sm-10">
+                                <div class="progress">
+                                  <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                              </div>
+                              <div class="col-sm-2">
+                                25%
+                              </div>
+                            </div>
+                          </td>
+                  </div>
+                  </td>
+                  </tr>
+                  <tr>
+                    <td class="py-1">
+                      <i id="de"></i> Kelas 5
+                    </td>
+                    <td>
+                      75
+                    </td>
+                    <td>
+                      <div class="text-danger"><i class="icon-arrow-down mr-2"></i>-80%</div>
+                    </td>
+                    <td>
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          70%
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pb-0">
+                      <i id="ae"></i> Kelas 6
+                    </td>
+                    <td class="pb-0">
+                      75
+                    </td>
+                    <td class="pb-0">
+                      <div class="text-success"><i class="icon-arrow-up mr-2"></i>+80%</div>
+                    </td>
+                    <td class="pb-0">
+                      <div class="row">
+                        <div class="col-sm-10">
+                          <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2">
+                          0%
+                        </div>
+
+                      </div>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">UPTD SD NEGERI 1 TERUSAN</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Management rapor Siswa <a href="https://www.bootstrapdash.com/" target="_blank">make by kelompok 4</a> from Polindra</span>
-          </div>
-        </footer>
-        <!-- partial -->
       </div>
-      <!-- main-panel ends -->
+
     </div>
-    <!-- page-body-wrapper ends -->
+  </div>
+  </div>
+  </div>
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:partials/_footer.html -->
+  <footer class="footer">
+    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+      <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">UPTD SD NEGERI 1 TERUSAN</span>
+      <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Management rapor Siswa <a href="https://www.bootstrapdash.com/" target="_blank">make by kelompok 4</a> from Polindra</span>
+    </div>
+  </footer>
+  <!-- partial -->
+  </div>
+  <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
   </div>
   <!-- container-scroller -->
 
@@ -405,4 +399,3 @@ require "../connection/session.php";
 </body>
 
 </html>
-
